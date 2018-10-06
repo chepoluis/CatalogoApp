@@ -37,7 +37,7 @@ public class HomeActivity extends AppCompatActivity
     //
     private RecyclerView mPeopleRV;
     private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter<Product, ProductsActivity.NewsViewHolder> mProductRVAdapter;
+    private FirebaseRecyclerAdapter<Product, ProductsActivity.ProductsViewHolder> mProductRVAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,8 +66,8 @@ public class HomeActivity extends AppCompatActivity
 
         //
 
-        //"News" here will reflect what you have called your database in Firebase.
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("News");
+        //"Products" here will reflect what you have called your database in Firebase.
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Products");
         mDatabase.keepSynced(true);
 
         mPeopleRV = (RecyclerView) findViewById(R.id.myRecycleView);
@@ -78,13 +78,16 @@ public class HomeActivity extends AppCompatActivity
         mPeopleRV.hasFixedSize();
         mPeopleRV.setLayoutManager(new LinearLayoutManager(this));
 
-        FirebaseRecyclerOptions personsOptions = new FirebaseRecyclerOptions.Builder<Product>().setQuery(personsQuery, Product.class).build();
+        FirebaseRecyclerOptions personsOptions = new FirebaseRecyclerOptions.Builder<Product>()
+                .setQuery(personsQuery, Product.class).build();
 
-        mProductRVAdapter = new FirebaseRecyclerAdapter<Product, ProductsActivity.NewsViewHolder>(personsOptions) {
+        mProductRVAdapter = new FirebaseRecyclerAdapter<Product, ProductsActivity.ProductsViewHolder>(personsOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull ProductsActivity.NewsViewHolder holder, int position, @NonNull Product product) {
+            protected void onBindViewHolder(@NonNull ProductsActivity.ProductsViewHolder holder,
+                                            int position, @NonNull Product product) {
                 holder.setTitle(product.getName());
-                holder.setDesc(product.getPrice());
+                holder.setPrice("$ " + product.getPrice() + " MXN");
+                holder.setAmount("Existing amount: " + product.getAmount());
                 holder.setImage(getBaseContext(), product.getImage());
 
                 holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +99,12 @@ public class HomeActivity extends AppCompatActivity
             }
 
             @Override
-            public ProductsActivity.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public ProductsActivity.ProductsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.new_product, parent, false);
 
-                return new ProductsActivity.NewsViewHolder(view);
+                return new ProductsActivity.ProductsViewHolder(view);
             }
         };
 
@@ -117,17 +120,22 @@ public class HomeActivity extends AppCompatActivity
         }
 
         public void setTitle(String title) {
-            TextView post_title = (TextView) mView.findViewById(R.id.post_title);
+            TextView post_title = (TextView) mView.findViewById(R.id.product_name);
             post_title.setText(title);
         }
 
-        public void setDesc(String desc) {
-            TextView post_desc = (TextView) mView.findViewById(R.id.post_desc);
+        public void setPrice(String desc) {
+            TextView post_desc = (TextView) mView.findViewById(R.id.product_price);
             post_desc.setText(desc);
         }
 
+        public void setAmount(String amount){
+            TextView post_amount = (TextView)mView.findViewById(R.id.product_amount);
+            post_amount.setText(amount);
+        }
+
         public void setImage(Context ctx, String image) {
-            ImageView post_image = (ImageView) mView.findViewById(R.id.post_image);
+            ImageView post_image = (ImageView) mView.findViewById(R.id.product_image);
             Picasso.with(ctx).load(image).into(post_image);
         }
     }

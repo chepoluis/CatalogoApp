@@ -25,7 +25,7 @@ import app.catalogo.com.catalogoapp.Model.Product;
 public class ProductsActivity extends AppCompatActivity {
     private RecyclerView mProductRV;
     private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter<Product, NewsViewHolder> mProductRVAdapter;
+    private FirebaseRecyclerAdapter<Product, ProductsViewHolder> mProductRVAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +47,12 @@ public class ProductsActivity extends AppCompatActivity {
 
         FirebaseRecyclerOptions personsOptions = new FirebaseRecyclerOptions.Builder<Product>().setQuery(personsQuery, Product.class).build();
 
-        mProductRVAdapter = new FirebaseRecyclerAdapter<Product, NewsViewHolder>(personsOptions) {
+        mProductRVAdapter = new FirebaseRecyclerAdapter<Product, ProductsViewHolder>(personsOptions) {
             @Override
-            protected void onBindViewHolder(@NonNull NewsViewHolder holder, int position, @NonNull Product product) {
+            protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull Product product) {
                 holder.setTitle(product.getName());
-                holder.setDesc(product.getPrice());
+                holder.setPrice(product.getPrice());
+                holder.setAmount(product.getAmount());
                 holder.setImage(getBaseContext(), product.getImage());
 
                 holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -63,12 +64,12 @@ public class ProductsActivity extends AppCompatActivity {
             }
 
             @Override
-            public ProductsActivity.NewsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            public ProductsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.new_product, parent, false);
 
-                return new ProductsActivity.NewsViewHolder(view);
+                return new ProductsViewHolder(view);
             }
         };
 
@@ -89,22 +90,31 @@ public class ProductsActivity extends AppCompatActivity {
 
     }
 
-    public static class NewsViewHolder extends RecyclerView.ViewHolder{
+    public static class ProductsViewHolder extends RecyclerView.ViewHolder{
         View mView;
-        public NewsViewHolder(View itemView){
+
+        public ProductsViewHolder(View itemView){
             super(itemView);
             mView = itemView;
         }
+
         public void setTitle(String title){
-            TextView post_title = (TextView)mView.findViewById(R.id.post_title);
+            TextView post_title = (TextView)mView.findViewById(R.id.product_name);
             post_title.setText(title);
         }
-        public void setDesc(String desc){
-            TextView post_desc = (TextView)mView.findViewById(R.id.post_desc);
+
+        public void setPrice(String desc){
+            TextView post_desc = (TextView)mView.findViewById(R.id.product_price);
             post_desc.setText(desc);
         }
+
+        public void setAmount(String amount){
+            TextView post_amount = (TextView)mView.findViewById(R.id.product_amount);
+            post_amount.setText(amount);
+        }
+
         public void setImage(Context ctx, String image){
-            ImageView post_image = (ImageView) mView.findViewById(R.id.post_image);
+            ImageView post_image = (ImageView) mView.findViewById(R.id.product_image);
             Picasso.with(ctx).load(image).into(post_image);
         }
     }
