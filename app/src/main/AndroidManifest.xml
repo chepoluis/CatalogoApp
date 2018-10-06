@@ -22,7 +22,8 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".ProductsActivity"></activity>
+        <activity android:name=".ProductsActivity" />
+        <activity android:name=".AddProductActivity"></activity>
     </application>
 
 </manifest>
