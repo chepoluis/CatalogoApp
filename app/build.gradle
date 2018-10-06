@@ -4,7 +4,7 @@ android {
     compileSdkVersion 27
     defaultConfig {
         applicationId "app.catalogo.com.catalogoapp"
-        minSdkVersion 15
+        minSdkVersion 16
         targetSdkVersion 27
         versionCode 1
         versionName "1.0"
@@ -33,6 +33,12 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.0.2'
     // AlertDialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
+
+    // Tuto Recycler
+    implementation 'com.android.support:recyclerview-v7:27.1.1'
+    implementation 'com.google.firebase:firebase-storage:16.0.2'
+    implementation 'com.firebaseui:firebase-ui-database:4.1.0'
+    implementation 'com.squareup.picasso:picasso:2.5.2'
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
