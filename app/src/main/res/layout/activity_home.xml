@@ -27,6 +27,25 @@
         </android.support.v7.widget.RecyclerView>
     </LinearLayout>
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/empty"
+        android:gravity="center_horizontal"
+        android:paddingTop="58dp"
+        android:text="There are no products!"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:visibility="gone"
+        android:id="@+id/icon_empty"
+        android:src="@drawable/ic_sentiment_very_dissatisfied_black_24dp"
+        android:foregroundGravity="center"
+        android:layout_width="10dp"
+        android:layout_height="10dp" />
+
     <android.support.design.widget.NavigationView
         android:id="@+id/nav_view"
         android:layout_width="wrap_content"

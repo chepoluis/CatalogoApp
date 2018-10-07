@@ -24,9 +24,12 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import app.catalogo.com.catalogoapp.Model.Product;
@@ -35,6 +38,9 @@ public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //
+    TextView empty;
+    ImageView icon_empty;
+
     private RecyclerView mPeopleRV;
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<Product, ProductsActivity.ProductsViewHolder> mProductRVAdapter;
@@ -45,6 +51,9 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        empty = findViewById(R.id.empty);
+        icon_empty = findViewById(R.id.icon_empty);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener()
@@ -70,6 +79,26 @@ public class HomeActivity extends AppCompatActivity
         //"Products" here will reflect what you have called your database in Firebase.
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Products");
         mDatabase.keepSynced(true);
+
+        // Check if there are products and show a text
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (snapshot.hasChild("Products")) {
+                    empty.setVisibility(View.GONE);
+                    icon_empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                    icon_empty.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
         mPeopleRV = (RecyclerView) findViewById(R.id.myRecycleView);
 
