@@ -50,6 +50,7 @@ public class ProductsActivity extends AppCompatActivity {
         mProductRVAdapter = new FirebaseRecyclerAdapter<Product, ProductsViewHolder>(personsOptions) {
             @Override
             protected void onBindViewHolder(@NonNull ProductsViewHolder holder, int position, @NonNull Product product) {
+                // Show the products information
                 holder.setTitle(product.getName());
                 holder.setPrice(product.getPrice());
                 holder.setAmount(product.getAmount());
@@ -67,7 +68,7 @@ public class ProductsActivity extends AppCompatActivity {
             public ProductsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
                 View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.new_product, parent, false);
+                        .inflate(R.layout.view_product, parent, false);
 
                 return new ProductsViewHolder(view);
             }

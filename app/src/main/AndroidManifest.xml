@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="app.catalogo.com.catalogoapp">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -23,7 +25,9 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ProductsActivity" />
-        <activity android:name=".AddProductActivity"></activity>
+        <activity android:name=".AddProductActivity" />
+        <activity android:name=".AllProductsActivity" />
+        <activity android:name=".ProductInformationActivity"></activity>
     </application>
 
 </manifest>

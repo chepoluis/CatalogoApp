@@ -2,9 +2,15 @@ package app.catalogo.com.catalogoapp;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,7 +25,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import app.catalogo.com.catalogoapp.Model.Product;
 import app.catalogo.com.catalogoapp.Model.User;
 
-public class AddProductActivity extends AppCompatActivity {
+public class AddProductActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     EditText productName;
     EditText productDescription;
     EditText productPrice;
@@ -33,10 +39,25 @@ public class AddProductActivity extends AppCompatActivity {
     DatabaseReference keyP;
     DatabaseReference keyProduct;
 
+    String keyDb;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("Add product");
+        setSupportActionBar(toolbar);
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
 
         productName = findViewById(R.id.productName);
         productDescription = findViewById(R.id.productDescription);
@@ -54,15 +75,18 @@ public class AddProductActivity extends AppCompatActivity {
         addProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                keyDb = keyProduct.getKey();
                 // Save product to db
                 Product product = new Product();
+                product.setProductKey(keyDb);
                 product.setName(productName.getText().toString());
                 product.setDescription(productDescription.getText().toString());
                 product.setPrice(productPrice.getText().toString());
                 product.setAmount(productAmount.getText().toString());
                 product.setImage(productImageURL.getText().toString());
 
-                products.child(keyProduct.getKey())
+                // Save the product
+                products.child(keyDb)
                         .setValue(product)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
@@ -83,5 +107,33 @@ public class AddProductActivity extends AppCompatActivity {
                         });
             }
         });
+    }
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+            Toast.makeText(this, "Hola!", Toast.LENGTH_SHORT).show();
+        } else if(id == R.id.nav_home) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        } if (id == R.id.nav_products) {
+            Intent intent = new Intent(this, AllProductsActivity.class);
+            startActivity(intent);
+            finish();
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
     }
 }

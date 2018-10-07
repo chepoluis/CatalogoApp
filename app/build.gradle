@@ -34,6 +34,10 @@ dependencies {
     // AlertDialog
     implementation 'com.github.d-max:spots-dialog:0.7@aar'
 
+    implementation 'com.github.bumptech.glide:glide:4.8.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
+    implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
     // Tuto Recycler
     implementation 'com.android.support:recyclerview-v7:27.1.1'
     implementation 'com.google.firebase:firebase-storage:16.0.2'

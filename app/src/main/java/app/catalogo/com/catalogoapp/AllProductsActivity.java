@@ -2,21 +2,20 @@ package app.catalogo.com.catalogoapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -31,10 +30,9 @@ import com.squareup.picasso.Picasso;
 
 import app.catalogo.com.catalogoapp.Model.Product;
 
-public class HomeActivity extends AppCompatActivity
+public class AllProductsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    //
     private RecyclerView mPeopleRV;
     private DatabaseReference mDatabase;
     private FirebaseRecyclerAdapter<Product, ProductsActivity.ProductsViewHolder> mProductRVAdapter;
@@ -42,18 +40,11 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_all_products);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick (View view){
-                Toast.makeText(HomeActivity.this, "Hola", Toast.LENGTH_SHORT).show();
-            }
-        });
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle("All products");
+        setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -63,7 +54,8 @@ public class HomeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(1).setChecked(true);
+
+        navigationView.getMenu().getItem(2).setChecked(true);
 
         //
 
@@ -85,16 +77,25 @@ public class HomeActivity extends AppCompatActivity
         mProductRVAdapter = new FirebaseRecyclerAdapter<Product, ProductsActivity.ProductsViewHolder>(personsOptions) {
             @Override
             protected void onBindViewHolder(@NonNull ProductsActivity.ProductsViewHolder holder,
-                                            int position, @NonNull Product product) {
+                                            int position, @NonNull final Product product) {
+                // Show the product information
                 holder.setTitle(product.getName());
                 holder.setPrice("$ " + product.getPrice() + " MXN");
                 holder.setAmount("Existing amount: " + product.getAmount());
                 holder.setImage(getBaseContext(), product.getImage());
 
+                // Pass the information to ProductInformationActivity
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(HomeActivity.this, "Hola", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(AllProductsActivity.this, ProductInformationActivity.class);
+                        intent.putExtra("productKey", product.getProductKey());
+                        intent.putExtra("productName",product.getName());
+                        intent.putExtra("productDescription",product.getDescription());
+                        intent.putExtra("productPrice",product.getPrice());
+                        intent.putExtra("productAmount",product.getAmount());
+                        intent.putExtra("productImage",product.getImage());
+                        startActivity(intent);
                     }
                 });
             }
@@ -112,6 +113,33 @@ public class HomeActivity extends AppCompatActivity
         mPeopleRV.setAdapter(mProductRVAdapter);
     }
 
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        // Handle navigation view item clicks here.
+        int id = item.getItemId();
+
+        if (id == R.id.nav_profile) {
+            Toast.makeText(this, "Hola!", Toast.LENGTH_SHORT).show();
+        } else if(id == R.id.nav_home) {
+            Intent intent = new Intent(this, HomeActivity.class);
+            startActivity(intent);
+            finish();
+        } if (id == R.id.nav_products) {
+            return true;
+        } else if (id == R.id.nav_manage) {
+
+        } else if (id == R.id.nav_share) {
+
+        } else if (id == R.id.nav_send) {
+
+        }
+
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawer.closeDrawer(GravityCompat.START);
+        return true;
+    }
+
+    // Is established  the information in the methods
     public static class NewsViewHolder extends RecyclerView.ViewHolder {
         View mView;
 
@@ -130,8 +158,8 @@ public class HomeActivity extends AppCompatActivity
             post_desc.setText(desc);
         }
 
-        public void setAmount(String amount){
-            TextView post_amount = (TextView)mView.findViewById(R.id.product_amount);
+        public void setAmount(String amount) {
+            TextView post_amount = (TextView) mView.findViewById(R.id.product_amount);
             post_amount.setText(amount);
         }
 
@@ -142,17 +170,6 @@ public class HomeActivity extends AppCompatActivity
     }
 
     //
-
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -176,33 +193,6 @@ public class HomeActivity extends AppCompatActivity
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if (id == R.id.nav_profile) {
-            Toast.makeText(this, "Hola!", Toast.LENGTH_SHORT).show();
-        } else if(id == R.id.nav_home) {
-            return true;
-        } if (id == R.id.nav_products) {
-            Intent intent = new Intent(this, AllProductsActivity.class);
-            startActivity(intent);
-            finish();
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
-        }
-
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
     }
 
     @Override

@@ -35,21 +35,33 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content">
 
-        <EditText
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/email"
             android:hint="E-mail"
             android:text="a@a.com"
             android:inputType="textEmailAddress"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
 
-        <EditText
+            app:met_singleLineEllipsis="true"
+            app:met_baseColor="@android:color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@android:color/black"
+            />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/password"
             android:hint="Password"
             android:text="123456"
             android:inputType="textPassword"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+
+            app:met_singleLineEllipsis="true"
+            app:met_baseColor="@android:color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="@android:color/black"
+            />
 
         <Button
             android:id="@+id/signIn"

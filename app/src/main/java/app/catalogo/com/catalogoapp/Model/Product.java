@@ -1,14 +1,28 @@
 package app.catalogo.com.catalogoapp.Model;
 
 public class Product {
+    private String productKey;
     private String name;
     private String description;
     private String price;
     private String amount;
     private String image;
 
+    public Product(String productKey, String name, String description, String price, String amount, String image) {
+        this.productKey = productKey;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.amount = amount;
+        this.image = image;
+    }
+
     public Product() {
     }
+
+    public String getProductKey() { return productKey; }
+
+    public void setProductKey(String productKey) { this.productKey = productKey; }
 
     public String getName() {
         return name;
