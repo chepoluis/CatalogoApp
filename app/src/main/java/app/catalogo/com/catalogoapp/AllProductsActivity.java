@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,15 +24,21 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import app.catalogo.com.catalogoapp.Model.Product;
 
 public class AllProductsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView empty;
+    ImageView icon_empty;
 
     private RecyclerView mPeopleRV;
     private DatabaseReference mDatabase;
@@ -41,6 +48,9 @@ public class AllProductsActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_products);
+
+        empty = findViewById(R.id.empty);
+        icon_empty = findViewById(R.id.icon_empty);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("All products");
@@ -62,6 +72,26 @@ public class AllProductsActivity extends AppCompatActivity
         //"Products" here will reflect what you have called your database in Firebase.
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Products");
         mDatabase.keepSynced(true);
+
+        // Check if there are products and show a text
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // If Products child exist
+                if (snapshot.hasChild("Products")) {
+                    empty.setVisibility(View.GONE);
+                    icon_empty.setVisibility(View.GONE);
+                } else {
+                    empty.setVisibility(View.VISIBLE);
+                    icon_empty.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Error: ", databaseError.toString());
+            }
+        });
             
         mPeopleRV = (RecyclerView) findViewById(R.id.myRecycleView);
 

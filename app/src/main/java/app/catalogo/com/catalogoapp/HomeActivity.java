@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -84,7 +85,8 @@ public class HomeActivity extends AppCompatActivity
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot snapshot) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // If Products child exist
                 if (snapshot.hasChild("Products")) {
                     empty.setVisibility(View.GONE);
                     icon_empty.setVisibility(View.GONE);
@@ -93,10 +95,9 @@ public class HomeActivity extends AppCompatActivity
                     icon_empty.setVisibility(View.VISIBLE);
                 }
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                Log.e("Error: ", databaseError.toString());
             }
         });
 
