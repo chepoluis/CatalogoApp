@@ -1,5 +1,6 @@
 package app.catalogo.com.catalogoapp;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
@@ -7,6 +8,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
@@ -126,7 +128,7 @@ public class ProductInformationActivity extends AppCompatActivity
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            Toast.makeText(ProductInformationActivity.this, "Successful registration!", Toast.LENGTH_LONG)
+                            Toast.makeText(ProductInformationActivity.this, "Changes done", Toast.LENGTH_LONG)
                                     .show();
                             Intent intent = new Intent(ProductInformationActivity.this, AllProductsActivity.class);
                             startActivity(intent);
@@ -140,8 +142,34 @@ public class ProductInformationActivity extends AppCompatActivity
                             Toast.makeText(ProductInformationActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-        } else if(id == R.id.action_delete) {
-            Toast.makeText(this, "Delete", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.action_delete) {
+
+            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switch (which) {
+                        case DialogInterface.BUTTON_POSITIVE:
+                            Toast.makeText(ProductInformationActivity.this, "Product eliminated", Toast.LENGTH_SHORT).show();
+                            products.child(product_key).removeValue();
+                            Intent intent = new Intent(ProductInformationActivity.this, AllProductsActivity.class);
+                            startActivity(intent);
+                            finish();
+                            break;
+
+                        case DialogInterface.BUTTON_NEGATIVE:
+                            Toast.makeText(ProductInformationActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+                            break;
+                    }
+                }
+            };
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(ProductInformationActivity.this);
+            builder.setMessage("Do you want to eliminate " +productName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
+                    .setNegativeButton("No", dialogClickListener).show();
+
+        } else if (id == R.id.action_search) {
+            Intent intent = new Intent(this, WebViewActivity.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);

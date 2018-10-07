@@ -62,11 +62,12 @@ public class AllProductsActivity extends AppCompatActivity
         //"Products" here will reflect what you have called your database in Firebase.
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Products");
         mDatabase.keepSynced(true);
-
+            
         mPeopleRV = (RecyclerView) findViewById(R.id.myRecycleView);
 
         DatabaseReference personsRef = FirebaseDatabase.getInstance().getReference().child("Products");
         Query personsQuery = personsRef.orderByKey();
+        
 
         mPeopleRV.hasFixedSize();
         mPeopleRV.setLayoutManager(new LinearLayoutManager(this));
