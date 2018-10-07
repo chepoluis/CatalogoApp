@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,12 +34,21 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
+import java.util.Map;
+
 import app.catalogo.com.catalogoapp.Model.Product;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     //
+    TextView textName;
+    String mName;
+
+    private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
+    private String userID;
+
     TextView empty;
     ImageView icon_empty;
 
@@ -53,14 +63,20 @@ public class HomeActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
+
+        textName = findViewById(R.id.textName);
+        getUserName();
+
         empty = findViewById(R.id.empty);
         icon_empty = findViewById(R.id.icon_empty);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener()
-        {
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick (View view){
+            public void onClick(View view) {
                 Toast.makeText(HomeActivity.this, "Hola", Toast.LENGTH_SHORT).show();
             }
         });
@@ -95,6 +111,7 @@ public class HomeActivity extends AppCompatActivity
                     icon_empty.setVisibility(View.VISIBLE);
                 }
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Error: ", databaseError.toString());
@@ -160,8 +177,8 @@ public class HomeActivity extends AppCompatActivity
             post_desc.setText(desc);
         }
 
-        public void setAmount(String amount){
-            TextView post_amount = (TextView)mView.findViewById(R.id.product_amount);
+        public void setAmount(String amount) {
+            TextView post_amount = (TextView) mView.findViewById(R.id.product_amount);
             post_amount.setText(amount);
         }
 
@@ -173,6 +190,35 @@ public class HomeActivity extends AppCompatActivity
 
     //
 
+
+    private void getUserName() {
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                View headerView = navigationView.getHeaderView(0);
+                textName = (TextView) headerView.findViewById(R.id.textName);
+
+                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+
+                if(map.get("name") != null) {
+                    mName = map.get("name").toString();
+                    textName.setText(mName);
+                }
+                /*mName = dataSnapshot.child("Users").child(userID).child("name").getRef().toString();
+                textName.setText(mName);
+*/
+                    /*if(map.get("profileImageUrl") != null) {
+                        mProfileImageUrl = map.get("profileImageUrl").toString();
+                        Glide.with(getApplication()).load(mProfileImageUrl).into(mProfileImage);
+                    }*/
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Error: ", databaseError.toString());
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {
@@ -216,9 +262,10 @@ public class HomeActivity extends AppCompatActivity
 
         if (id == R.id.nav_profile) {
             Toast.makeText(this, "Hola!", Toast.LENGTH_SHORT).show();
-        } else if(id == R.id.nav_home) {
+        } else if (id == R.id.nav_home) {
             return true;
-        } if (id == R.id.nav_products) {
+        }
+        if (id == R.id.nav_products) {
             Intent intent = new Intent(this, AllProductsActivity.class);
             startActivity(intent);
             finish();

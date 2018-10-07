@@ -10,23 +10,34 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Map;
 
 import app.catalogo.com.catalogoapp.Model.Product;
 import app.catalogo.com.catalogoapp.Model.User;
 
 public class AddProductActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+    TextView textName;
+    String mName;
+
     EditText productName;
     EditText productDescription;
     EditText productPrice;
@@ -40,12 +51,23 @@ public class AddProductActivity extends AppCompatActivity implements NavigationV
     DatabaseReference keyP;
     DatabaseReference keyProduct;
 
+    private FirebaseAuth mAuth;
+    private DatabaseReference mUserDatabase;
+    private String userID;
+
     String keyDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+
+        mAuth = FirebaseAuth.getInstance();
+        userID = mAuth.getCurrentUser().getUid();
+        mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
+
+        textName = findViewById(R.id.textName);
+        getUserName();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Add product");
@@ -132,6 +154,35 @@ public class AddProductActivity extends AppCompatActivity implements NavigationV
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getUserName() {
+        mUserDatabase.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                View headerView = navigationView.getHeaderView(0);
+                textName = (TextView) headerView.findViewById(R.id.textName);
+
+                Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
+
+                if(map.get("name") != null) {
+                    mName = map.get("name").toString();
+                    textName.setText(mName);
+                }
+                /*mName = dataSnapshot.child("Users").child(userID).child("name").getRef().toString();
+                textName.setText(mName);
+*/
+                    /*if(map.get("profileImageUrl") != null) {
+                        mProfileImageUrl = map.get("profileImageUrl").toString();
+                        Glide.with(getApplication()).load(mProfileImageUrl).into(mProfileImage);
+                    }*/
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Error: ", databaseError.toString());
+            }
+        });
     }
 
     @Override
