@@ -83,7 +83,7 @@ public class ProductsActivity extends AppCompatActivity {
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(ProductsActivity.this, "Hola", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(ProductsActivity.this, "Holae", Toast.LENGTH_SHORT).show();
                     }
                 });
             }

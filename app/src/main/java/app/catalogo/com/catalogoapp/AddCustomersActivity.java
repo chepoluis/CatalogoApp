@@ -29,26 +29,28 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.Map;
 
+import app.catalogo.com.catalogoapp.Model.Customer;
 import app.catalogo.com.catalogoapp.Model.Product;
 
-public class AddProductActivity extends AppCompatActivity
+public class AddCustomersActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView textName, textEmail;
     String mName, mEmail;
 
-    EditText productName;
-    EditText productDescription;
-    EditText productPrice;
-    EditText productAmount;
-    EditText productImageURL;
+    EditText customerName;
+    EditText customerCity;
+    EditText customerDirection;
+    EditText customerPhone;
+    EditText customerEmail;
+    EditText customerImage;
 
-    Button addProduct;
+    Button addCustomer;
 
     FirebaseDatabase db;
-    DatabaseReference products;
+    DatabaseReference customers;
     DatabaseReference keyP;
-    DatabaseReference keyProduct;
+    DatabaseReference keyCustomer;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
@@ -59,7 +61,7 @@ public class AddProductActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_add_product);
+        setContentView(R.layout.activity_add_customers);
 
         mAuth = FirebaseAuth.getInstance();
         userID = mAuth.getCurrentUser().getUid();
@@ -71,7 +73,7 @@ public class AddProductActivity extends AppCompatActivity
         getUserName();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Add product");
+        toolbar.setTitle("Add customer");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -83,42 +85,44 @@ public class AddProductActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        productName = findViewById(R.id.productName);
-        productDescription = findViewById(R.id.productDescription);
-        productPrice = findViewById(R.id.productPrice);
-        productAmount = findViewById(R.id.productAmount);
-        productImageURL = findViewById(R.id.productImage);
+        customerName = findViewById(R.id.customerName);
+        customerCity = findViewById(R.id.customerCity);
+        customerDirection = findViewById(R.id.customerDirection);
+        customerPhone = findViewById(R.id.customerPhone);
+        customerEmail = findViewById(R.id.customerEmail);
+        customerImage = findViewById(R.id.customerImage);
 
         // Init firebase
         db = FirebaseDatabase.getInstance();
-        products = db.getReference("Products");
-        keyP = products;
+        customers = db.getReference("Customers");
+        keyP = customers;
         // Create a empty field(key) in the child Products
-        keyProduct = keyP.push();
+        keyCustomer = keyP.push();
 
-        addProduct = findViewById(R.id.add);
-        addProduct.setOnClickListener(new View.OnClickListener() {
+        addCustomer = findViewById(R.id.addCustomer);
+        addCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                keyDb = keyProduct.getKey();
-                // Save product to db
-                Product product = new Product();
-                product.setProductKey(keyDb);
-                product.setName(productName.getText().toString());
-                product.setDescription(productDescription.getText().toString());
-                product.setPrice(productPrice.getText().toString());
-                product.setAmount(productAmount.getText().toString());
-                product.setImage(productImageURL.getText().toString());
+                keyDb = keyCustomer.getKey();
+                // Save customer to db
+                Customer customer = new Customer();
+                customer.setCustomerKey(keyDb);
+                customer.setName(customerName.getText().toString());
+                customer.setCity(customerCity.getText().toString());
+                customer.setDirection(customerDirection.getText().toString());
+                customer.setPhoneNumber(customerPhone.getText().toString());
+                customer.setEmail(customerEmail.getText().toString());
+                customer.setImage(customerImage.getText().toString());
 
                 // Save the product
-                products.child(keyDb)
-                        .setValue(product)
+                customers.child(keyDb)
+                        .setValue(customer)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void aVoid) {
-                                Toast.makeText(AddProductActivity.this, "Successful registration!", Toast.LENGTH_LONG)
+                                Toast.makeText(AddCustomersActivity.this, "Successful registration!", Toast.LENGTH_LONG)
                                         .show();
-                                Intent intent = new Intent(AddProductActivity.this, HomeActivity.class);
+                                Intent intent = new Intent(AddCustomersActivity.this, AllCustomersActivity.class);
                                 startActivity(intent);
                                 finish();
                                 return;
@@ -127,34 +131,11 @@ public class AddProductActivity extends AppCompatActivity
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(AddProductActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(AddCustomersActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
             }
         });
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.add, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if(id == R.id.action_search) {
-            Intent intent = new Intent(this, WebViewActivity.class);
-            startActivity(intent);
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
     private void getUserName() {
@@ -190,6 +171,29 @@ public class AddProductActivity extends AppCompatActivity
                 Log.e("Error: ", databaseError.toString());
             }
         });
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.add, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if(id == R.id.action_search) {
+            Intent intent = new Intent(this, WebViewActivity.class);
+            startActivity(intent);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

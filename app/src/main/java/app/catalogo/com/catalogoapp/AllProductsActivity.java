@@ -40,8 +40,8 @@ import app.catalogo.com.catalogoapp.Model.Product;
 public class AllProductsActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    TextView textName;
-    String mName;
+    TextView textName, textEmail;
+    String mName, mEmail;
 
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
@@ -64,6 +64,7 @@ public class AllProductsActivity extends AppCompatActivity
         mUserDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
 
         textName = findViewById(R.id.textName);
+        textEmail = findViewById(R.id.textEmail);
         // Get user name and it's set in the navigation view
         getUserName();
 
@@ -169,12 +170,18 @@ public class AllProductsActivity extends AppCompatActivity
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 View headerView = navigationView.getHeaderView(0);
                 textName = (TextView) headerView.findViewById(R.id.textName);
+                textEmail = (TextView) headerView.findViewById(R.id.textEmail);
 
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
 
                 if(map.get("name") != null) {
                     mName = map.get("name").toString();
                     textName.setText(mName);
+                }
+
+                if(map.get("email") != null){
+                    mEmail = map.get("email").toString();
+                    textEmail.setText(mEmail);
                 }
                 /*mName = dataSnapshot.child("Users").child(userID).child("name").getRef().toString();
                 textName.setText(mName);
@@ -204,8 +211,10 @@ public class AllProductsActivity extends AppCompatActivity
             finish();
         } if (id == R.id.nav_products) {
             return true;
-        } else if (id == R.id.nav_manage) {
-
+        } else if (id == R.id.nav_customers) {
+            Intent intent = new Intent(this, AllCustomersActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

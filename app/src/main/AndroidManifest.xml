@@ -28,7 +28,9 @@
         <activity android:name=".AddProductActivity" />
         <activity android:name=".AllProductsActivity" />
         <activity android:name=".ProductInformationActivity" />
-        <activity android:name=".WebViewActivity"></activity>
+        <activity android:name=".WebViewActivity" />
+        <activity android:name=".AddCustomersActivity" />
+        <activity android:name=".AllCustomersActivity"></activity>
     </application>
 
 </manifest>
