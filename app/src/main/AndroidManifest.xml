@@ -30,7 +30,8 @@
         <activity android:name=".ProductInformationActivity" />
         <activity android:name=".WebViewActivity" />
         <activity android:name=".AddCustomersActivity" />
-        <activity android:name=".AllCustomersActivity"></activity>
+        <activity android:name=".AllCustomersActivity" />
+        <activity android:name=".CustomersActivity"></activity>
     </application>
 
 </manifest>

@@ -96,7 +96,7 @@ public class AddCustomersActivity extends AppCompatActivity
         db = FirebaseDatabase.getInstance();
         customers = db.getReference("Customers");
         keyP = customers;
-        // Create a empty field(key) in the child Products
+        // Create a empty field(key) in the child Customers
         keyCustomer = keyP.push();
 
         addCustomer = findViewById(R.id.addCustomer);
