@@ -90,7 +90,7 @@ public class AllCustomersActivity extends AppCompatActivity
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Customers");
         mDatabase.keepSynced(true);
 
-        // Check if there are products and show a text
+        // Check if there are customers and show a text
         DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -135,7 +135,7 @@ public class AllCustomersActivity extends AppCompatActivity
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) { // Add CustomerInformationActivity
-                        Intent intent = new Intent(AllCustomersActivity.this, ProductInformationActivity.class);
+                        Intent intent = new Intent(AllCustomersActivity.this, CustomerInformationActivity.class);
                         intent.putExtra("customerKey", customer.getCustomerKey());
                         intent.putExtra("customerName",customer.getName());
                         intent.putExtra("customerCity",customer.getCity());

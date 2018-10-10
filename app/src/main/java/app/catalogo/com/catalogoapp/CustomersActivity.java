@@ -22,7 +22,6 @@ import com.google.firebase.database.Query;
 import com.squareup.picasso.Picasso;
 
 import app.catalogo.com.catalogoapp.Model.Customer;
-import app.catalogo.com.catalogoapp.Model.Product;
 
 public class CustomersActivity extends AppCompatActivity {
 
