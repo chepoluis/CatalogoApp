@@ -32,7 +32,9 @@
         <activity android:name=".AddCustomersActivity" />
         <activity android:name=".AllCustomersActivity" />
         <activity android:name=".CustomersActivity" />
-        <activity android:name=".CustomerInformationActivity"></activity>
+        <activity android:name=".CustomerInformationActivity" />
+        <activity android:name=".BuyProductActivity" />
+        <activity android:name=".ChooseCustomerActivity"></activity>
     </application>
 
 </manifest>

@@ -133,7 +133,7 @@ public class HomeActivity extends AppCompatActivity
         mProductRVAdapter = new FirebaseRecyclerAdapter<Product, ProductsActivity.ProductsViewHolder>(personsOptions) {
             @Override
             protected void onBindViewHolder(@NonNull ProductsActivity.ProductsViewHolder holder,
-                                            int position, @NonNull Product product) {
+                                            int position, @NonNull final Product product) {
                 holder.setTitle(product.getName());
                 holder.setPrice("$ " + product.getPrice() + " MXN");
                 holder.setAmount("Existing amount: " + product.getAmount());
@@ -142,7 +142,15 @@ public class HomeActivity extends AppCompatActivity
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(HomeActivity.this, "Hola", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(HomeActivity.this, BuyProductActivity.class);
+                        intent.putExtra("productKey", product.getProductKey());
+                        intent.putExtra("productName",product.getName());
+                        intent.putExtra("productDescription",product.getDescription());
+                        intent.putExtra("productPrice",product.getPrice());
+                        intent.putExtra("productAmount",product.getAmount());
+                        intent.putExtra("productImage",product.getImage());
+                        startActivity(intent);
+                        finish();
                     }
                 });
             }
