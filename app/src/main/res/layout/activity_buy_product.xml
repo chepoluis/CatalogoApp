@@ -70,8 +70,33 @@
                 android:text="Choose"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
-
         </LinearLayout>
+
+        <RadioGroup
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <RadioButton
+                android:id="@+id/rbCashPayment"
+                android:text="Cash payment"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <RadioButton
+                android:id="@+id/rbCreditPayment"
+                android:text="Credit payment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RadioGroup>
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/btnPay"
+            android:text="Pay"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView

@@ -128,7 +128,7 @@ public class AllCustomersActivity extends AppCompatActivity
                 // Show the customer information
                 holder.setName(customer.getName());
                 holder.setCity(customer.getCity());
-                holder.setDirection(customer.getDirection());
+                holder.setAddress(customer.getAddress());
                 holder.setImage(getBaseContext(), customer.getImage());
 
                 // Pass the information to CustomerInformationActivity
@@ -139,7 +139,7 @@ public class AllCustomersActivity extends AppCompatActivity
                         intent.putExtra("customerKey", customer.getCustomerKey());
                         intent.putExtra("customerName",customer.getName());
                         intent.putExtra("customerCity",customer.getCity());
-                        intent.putExtra("customerDirection",customer.getDirection());
+                        intent.putExtra("customerAddress",customer.getAddress());
                         intent.putExtra("customerPhone",customer.getPhoneNumber());
                         intent.putExtra("customerEmail",customer.getEmail());
                         intent.putExtra("customerImage",customer.getImage());
@@ -181,7 +181,7 @@ public class AllCustomersActivity extends AppCompatActivity
         }
 
         public void setDirection(String direction) {
-            TextView post_direction = (TextView) mView.findViewById(R.id.customer_direction);
+            TextView post_direction = (TextView) mView.findViewById(R.id.customer_address);
             post_direction.setText(direction);
         }
 

@@ -68,7 +68,7 @@ public class CustomersActivity extends AppCompatActivity {
                 // Show the products information
                 holder.setName(customer.getName());
                 holder.setCity(customer.getCity());
-                holder.setDirection(customer.getDirection());
+                holder.setAddress(customer.getAddress());
                 holder.setImage(getBaseContext(), customer.getImage());
 
                 holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -123,9 +123,9 @@ public class CustomersActivity extends AppCompatActivity {
             post_city.setText(city);
         }
 
-        public void setDirection(String direction) {
-            TextView post_direction = (TextView) mView.findViewById(R.id.customer_direction);
-            post_direction.setText(direction);
+        public void setAddress(String address) {
+            TextView post_address = (TextView) mView.findViewById(R.id.customer_address);
+            post_address.setText(address);
         }
 
         public void setImage(Context ctx, String image) {

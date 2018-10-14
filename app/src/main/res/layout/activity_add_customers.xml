@@ -49,13 +49,13 @@
             app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/customerDirection"
+            android:id="@+id/customerAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:layout_marginTop="15dp"
-            android:hint="Direction"
+            android:hint="Address"
 
             app:met_baseColor="@color/colorPrimary"
             app:met_floatingLabel="highlight"

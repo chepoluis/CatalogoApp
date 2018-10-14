@@ -4,7 +4,7 @@ public class Customer {
     private String customerKey;
     private String name;
     private String city;
-    private String direction;
+    private String address;
     private String phoneNumber;
     private String email;
     private String image;
@@ -16,7 +16,7 @@ public class Customer {
         this.customerKey = customerKey;
         this.name = name;
         this.city = city;
-        this.direction = direction;
+        this.address = direction;
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.image = image;
@@ -46,12 +46,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getDirection() {
-        return direction;
+    public String getAddress() {
+        return address;
     }
 
-    public void setDirection(String direction) {
-        this.direction = direction;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getPhoneNumber() {

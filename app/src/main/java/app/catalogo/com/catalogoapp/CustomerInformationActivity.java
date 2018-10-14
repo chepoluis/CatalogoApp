@@ -35,7 +35,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 
 import app.catalogo.com.catalogoapp.Model.Customer;
-import app.catalogo.com.catalogoapp.Model.Product;
 
 public class CustomerInformationActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -54,12 +53,12 @@ public class CustomerInformationActivity extends AppCompatActivity
 
     EditText customerName;
     EditText customerCity;
-    EditText customerDirection;
+    EditText customerAddress;
     EditText customerPhone;
     EditText customerEmail;
     EditText customerImage;
 
-    String nameIntent, cityIntent, directionIntent, phoneIntent, emailIntent, imageIntent;
+    String nameIntent, cityIntent, addressIntent, phoneIntent, emailIntent, imageIntent;
 
     FirebaseDatabase db;
     DatabaseReference customers;
@@ -103,7 +102,7 @@ public class CustomerInformationActivity extends AppCompatActivity
 
         customerName = findViewById(R.id.customer_name);
         customerCity = findViewById(R.id.customer_city);
-        customerDirection = findViewById(R.id.customer_direction);
+        customerAddress = findViewById(R.id.customer_address);
         customerPhone = findViewById(R.id.customer_phone);
         customerEmail = findViewById(R.id.customer_email);
         customerImage = findViewById(R.id.customer_image);
@@ -111,7 +110,7 @@ public class CustomerInformationActivity extends AppCompatActivity
         customer_key = getIntent().getExtras().getString("customerKey");
         nameIntent = getIntent().getExtras().getString("customerName");
         cityIntent = getIntent().getExtras().getString("customerCity");
-        directionIntent = getIntent().getExtras().getString("customerDirection");
+        addressIntent = getIntent().getExtras().getString("customerAddress");
         phoneIntent = getIntent().getExtras().getString("customerPhone");
         emailIntent = getIntent().getExtras().getString("customerEmail");
         imageIntent = getIntent().getExtras().getString("customerImage");
@@ -121,7 +120,7 @@ public class CustomerInformationActivity extends AppCompatActivity
 
         customerName.setText(nameIntent);
         customerCity.setText(cityIntent);
-        customerDirection.setText(directionIntent);
+        customerAddress.setText(addressIntent);
         customerPhone.setText(phoneIntent);
         customerEmail.setText(emailIntent);
         customerImage.setText(imageIntent);
@@ -148,7 +147,7 @@ public class CustomerInformationActivity extends AppCompatActivity
             customer.setCustomerKey(customer_key);
             customer.setName(customerName.getText().toString());
             customer.setCity(customerCity.getText().toString());
-            customer.setDirection(customerDirection.getText().toString());
+            customer.setAddress(customerAddress.getText().toString());
             customer.setPhoneNumber(customerPhone.getText().toString());
             customer.setEmail(customerEmail.getText().toString());
             customer.setImage(customerImage.getText().toString());

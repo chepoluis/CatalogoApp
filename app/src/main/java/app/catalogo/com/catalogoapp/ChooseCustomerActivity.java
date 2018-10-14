@@ -13,7 +13,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,7 +37,7 @@ import app.catalogo.com.catalogoapp.Model.Customer;
 public class ChooseCustomerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    String buyImage, buyName, buyPrice, buyDescription;
+    String buyImage, buyName, buyPrice, buyDescription, buyAmount, buyProductKey;
 
     TextView textName, textEmail;
     String mName, mEmail;
@@ -62,6 +61,8 @@ public class ChooseCustomerActivity extends AppCompatActivity
         buyImage = getIntent().getExtras().getString("productImage");
         buyName = getIntent().getExtras().getString("productName");
         buyPrice = getIntent().getExtras().getString("productPrice");
+        buyAmount = getIntent().getExtras().getString("productAmount");
+        buyProductKey = getIntent().getExtras().getString("productKey");
         buyDescription = getIntent().getExtras().getString("productDescription");
 
         mAuth = FirebaseAuth.getInstance();
@@ -133,7 +134,7 @@ public class ChooseCustomerActivity extends AppCompatActivity
                 // Show the customer information
                 holder.setName(customer.getName());
                 holder.setCity(customer.getCity());
-                holder.setDirection(customer.getDirection());
+                holder.setAddress(customer.getAddress());
                 holder.setImage(getBaseContext(), customer.getImage());
 
                 // Pass the information to BuyProductActivity
@@ -144,7 +145,7 @@ public class ChooseCustomerActivity extends AppCompatActivity
                         intent.putExtra("customerKey", customer.getCustomerKey());
                         intent.putExtra("customerName",customer.getName());
                         intent.putExtra("customerCity",customer.getCity());
-                        intent.putExtra("customerDirection",customer.getDirection());
+                        intent.putExtra("customerAddress",customer.getAddress());
                         intent.putExtra("customerPhone",customer.getPhoneNumber());
                         intent.putExtra("customerEmail",customer.getEmail());
                         intent.putExtra("customerImage",customer.getImage());
@@ -152,6 +153,8 @@ public class ChooseCustomerActivity extends AppCompatActivity
                         intent.putExtra("productName", buyName);
                         intent.putExtra("productPrice", buyPrice);
                         intent.putExtra("productDescription", buyDescription);
+                        intent.putExtra("productAmount", buyAmount);
+                        intent.putExtra("productKey", buyProductKey);
                         intent.putExtra("productImage", buyImage);
                         startActivity(intent);
                         finish();

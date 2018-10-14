@@ -30,7 +30,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.Map;
 
 import app.catalogo.com.catalogoapp.Model.Customer;
-import app.catalogo.com.catalogoapp.Model.Product;
 
 public class AddCustomersActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -40,7 +39,7 @@ public class AddCustomersActivity extends AppCompatActivity
 
     EditText customerName;
     EditText customerCity;
-    EditText customerDirection;
+    EditText customerAddress;
     EditText customerPhone;
     EditText customerEmail;
     EditText customerImage;
@@ -87,7 +86,7 @@ public class AddCustomersActivity extends AppCompatActivity
 
         customerName = findViewById(R.id.customerName);
         customerCity = findViewById(R.id.customerCity);
-        customerDirection = findViewById(R.id.customerDirection);
+        customerAddress = findViewById(R.id.customerAddress);
         customerPhone = findViewById(R.id.customerPhone);
         customerEmail = findViewById(R.id.customerEmail);
         customerImage = findViewById(R.id.customerImage);
@@ -109,7 +108,7 @@ public class AddCustomersActivity extends AppCompatActivity
                 customer.setCustomerKey(keyDb);
                 customer.setName(customerName.getText().toString());
                 customer.setCity(customerCity.getText().toString());
-                customer.setDirection(customerDirection.getText().toString());
+                customer.setAddress(customerAddress.getText().toString());
                 customer.setPhoneNumber(customerPhone.getText().toString());
                 customer.setEmail(customerEmail.getText().toString());
                 customer.setImage(customerImage.getText().toString());
