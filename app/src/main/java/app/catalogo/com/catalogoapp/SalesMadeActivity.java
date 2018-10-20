@@ -321,6 +321,7 @@ public class SalesMadeActivity extends AppCompatActivity
                     String customerAddress = "";
                     String customerCity = "";
                     String customerPhone = "";
+                    String customerEmail = "";
                     String seller = "";
                     String productName = "";
                     String productCost = "";
@@ -353,6 +354,10 @@ public class SalesMadeActivity extends AppCompatActivity
                         customerPhone = dataSnapshot.child("customerPhone").getValue().toString();
                     }
 
+                    if (dataSnapshot.child("customerEmail").getValue() != null) {
+                        customerEmail = dataSnapshot.child("customerEmail").getValue().toString();
+                    }
+
                     if (dataSnapshot.child("sellerName").getValue() != null) {
                         seller = dataSnapshot.child("sellerName").getValue().toString();
                     }
@@ -381,7 +386,7 @@ public class SalesMadeActivity extends AppCompatActivity
                         productDescription = dataSnapshot.child("productDescription").getValue().toString();
                     }
 
-                    HistoryCashObject obj = new HistoryCashObject(saleId, customerName, customerAddress, customerCity, customerPhone, seller, productName, productCost, customerImage, productImage, productDescription, saleDate);
+                    HistoryCashObject obj = new HistoryCashObject(saleId, customerName, customerAddress, customerCity, customerPhone, customerEmail, seller, productName, productCost, customerImage, productImage, productDescription, saleDate);
                     resultsHistory.add(obj);
                     mHistoryAdapter.notifyDataSetChanged();
                 }

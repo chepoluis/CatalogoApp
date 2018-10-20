@@ -43,6 +43,7 @@ public class HistoryCashAdapter extends RecyclerView.Adapter<HistoryCashViewHold
         holder.customerCityGone.setText("City: " + itemList.get(position).getCustomerCity());
         holder.customerAddressGone.setText("Address: " + itemList.get(position).getCustomerAddress());
         holder.customerPhoneGone.setText("Phone: " + itemList.get(position).getCustomerPhone());
+        holder.customerEmailGone.setText("Email: " + itemList.get(position).getCustomerEmail());
         holder.sellerGone.setText("Seller: " + itemList.get(position).getSeller());
         holder.customerImageGone.setText(itemList.get(position).getCustomerImage());
         holder.productImageGone.setText(itemList.get(position).getProductImage());

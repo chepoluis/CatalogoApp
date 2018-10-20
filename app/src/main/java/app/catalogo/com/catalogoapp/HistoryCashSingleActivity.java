@@ -47,6 +47,7 @@ public class HistoryCashSingleActivity extends AppCompatActivity
     TextView customerCity;
     TextView customerAddress;
     TextView customerPhone;
+    TextView customerEmail;
     TextView seller;
     TextView product;
     TextView productPrice;
@@ -54,7 +55,7 @@ public class HistoryCashSingleActivity extends AppCompatActivity
     TextView saleDate;
 
     String customerNameIntent, customerCityIntent, customerAddressIntent,
-            customerPhoneIntent, sellerIntent, productIntent, productPriceIntent,
+            customerPhoneIntent, customerEmailIntent, sellerIntent, productIntent, productPriceIntent,
             saleDateIntent, imageCustomerIntent, productImageIntent, productDescriptionIntent;
 
     FirebaseDatabase db;
@@ -73,6 +74,7 @@ public class HistoryCashSingleActivity extends AppCompatActivity
         customerCity = findViewById(R.id.customerCitySaleMade);
         customerAddress = findViewById(R.id.customerAddressSaleMade);
         customerPhone = findViewById(R.id.customerPhoneSaleMade);
+        customerEmail = findViewById(R.id.customerEmailSaleMade);
         seller = findViewById(R.id.sellerSaleMade);
         product = findViewById(R.id.productSaleMade);
         productDescription = findViewById(R.id.productDescriptionSaleMade);
@@ -84,6 +86,7 @@ public class HistoryCashSingleActivity extends AppCompatActivity
         customerCityIntent = getIntent().getExtras().getString("customerCity");
         customerAddressIntent = getIntent().getExtras().getString("customerAddress");
         customerPhoneIntent = getIntent().getExtras().getString("customerPhone");
+        customerEmailIntent = getIntent().getExtras().getString("customerEmail");
         sellerIntent = getIntent().getExtras().getString("seller");
         productIntent = getIntent().getExtras().getString("productPurchase");
         productDescriptionIntent = getIntent().getExtras().getString("productDescription");
@@ -100,6 +103,7 @@ public class HistoryCashSingleActivity extends AppCompatActivity
         customerCity.setText(customerCityIntent);
         customerAddress.setText(customerAddressIntent);
         customerPhone.setText(customerPhoneIntent);
+        customerEmail.setText(customerEmailIntent);
         seller.setText(sellerIntent);
         product.setText(productIntent);
         productDescription.setText(productDescriptionIntent);

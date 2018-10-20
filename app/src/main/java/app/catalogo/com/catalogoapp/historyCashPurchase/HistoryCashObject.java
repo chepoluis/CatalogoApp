@@ -6,6 +6,7 @@ public class HistoryCashObject {
     private String customerAddress;
     private String customerCity;
     private String customerPhone;
+    private String customerEmail;
     private String seller;
     private String productPurchased;
     private String productCost;
@@ -14,12 +15,13 @@ public class HistoryCashObject {
     private String productDescription;
     private String saleDate;
 
-    public HistoryCashObject(String saleId, String customerName, String customerAddress, String customerCity, String customerPhone, String seller, String productPurchased, String productCost, String customerImage, String productImage, String productDescription, String saleDate) {
+    public HistoryCashObject(String saleId, String customerName, String customerAddress, String customerCity, String customerPhone, String email, String seller, String productPurchased, String productCost, String customerImage, String productImage, String productDescription, String saleDate) {
         this.saleId = saleId;
         this.customerName = customerName;
         this.customerAddress = customerAddress;
         this.customerCity = customerCity;
         this.customerPhone = customerPhone;
+        this.customerEmail = email;
         this.seller = seller;
         this.productPurchased = productPurchased;
         this.productCost = productCost;
@@ -123,5 +125,13 @@ public class HistoryCashObject {
 
     public void setProductDescription(String productDescription) {
         this.productDescription = productDescription;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
     }
 }

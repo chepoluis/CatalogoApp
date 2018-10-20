@@ -35,7 +35,7 @@
             <TextView
                 android:paddingTop="28dp"
                 android:id="@+id/customerSaleMade"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -56,7 +56,7 @@
             <TextView
                 android:id="@+id/productSaleMade"
                 android:paddingTop="28dp"
-                android:textSize="25sp"
+                android:textSize="20sp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
 
@@ -64,25 +64,31 @@
 
         <TextView
             android:id="@+id/customerCitySaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/customerAddressSaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/customerPhoneSaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/customerEmailSaleMade"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/sellerSaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -94,19 +100,19 @@
 
         <TextView
             android:id="@+id/productDescriptionSaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/productPriceSaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <TextView
             android:id="@+id/dateSaleMade"
-            android:textSize="22sp"
+            android:textSize="15sp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

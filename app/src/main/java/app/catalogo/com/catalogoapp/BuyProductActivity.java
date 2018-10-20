@@ -46,8 +46,9 @@ public class BuyProductActivity extends AppCompatActivity
     Button chooseCustomer, btnPay;
 
     int amountProduct = 0;
-    String nameIntent, descriptionIntent, priceIntent, imageIntent, customerNameIntent, productKeyIntent, amountProductIntent;
-    String customerKey = "", customerAddress, customerCity, customerPhone, customerImage;
+    String nameIntent, descriptionIntent, priceIntent, imageIntent, customerNameIntent,
+            productKeyIntent, amountProductIntent;
+    String customerKey = "", customerAddress, customerCity, customerPhone, customerEmail, customerImage;
 
     TextView textName, textEmail;
     String mName, mEmail;
@@ -91,6 +92,7 @@ public class BuyProductActivity extends AppCompatActivity
         customerKey = getIntent().getExtras().getString("customerKey");
         customerAddress = getIntent().getExtras().getString("customerAddress");
         customerPhone = getIntent().getExtras().getString("customerPhone");
+        customerEmail = getIntent().getExtras().getString("customerEmail");
         customerCity = getIntent().getExtras().getString("customerCity");
         customerImage = getIntent().getExtras().getString("customerImage");
         customerNameIntent = getIntent().getExtras().getString("customerName");
@@ -183,6 +185,7 @@ public class BuyProductActivity extends AppCompatActivity
         map.put("customerName", customerNameIntent);
         map.put("sellerName", mName);
         map.put("customerPhone", customerPhone);
+        map.put("customerEmail", customerEmail);
         map.put("price", priceIntent);
         map.put("product", nameIntent);
         map.put("productKey", productKeyIntent);

@@ -24,6 +24,7 @@ public class HistoryCashViewHolders extends RecyclerView.ViewHolder implements V
     public TextView customerAddressGone;
     public TextView customerCityGone;
     public TextView customerPhoneGone;
+    public TextView customerEmailGone;
     public TextView sellerGone;
     public TextView productDescriptionGone;
 
@@ -43,6 +44,7 @@ public class HistoryCashViewHolders extends RecyclerView.ViewHolder implements V
         customerAddressGone = itemView.findViewById(R.id.customerAddressGone);
         customerCityGone = itemView.findViewById(R.id.customerCityGone);
         customerPhoneGone = itemView.findViewById(R.id.customerPhoneGone);
+        customerEmailGone = itemView.findViewById(R.id.customerEmailGone);
         sellerGone = itemView.findViewById(R.id.sellerGone);
         productDescriptionGone = itemView.findViewById(R.id.productDescriptionGone);
     }
@@ -64,6 +66,7 @@ public class HistoryCashViewHolders extends RecyclerView.ViewHolder implements V
         intent.putExtra("customerCity", customerCityGone.getText().toString());
         intent.putExtra("customerAddress", customerAddressGone.getText().toString());
         intent.putExtra("customerPhone", customerPhoneGone.getText().toString());
+        intent.putExtra("customerEmail", customerEmailGone.getText().toString());
         intent.putExtra("seller", sellerGone.getText().toString());
         intent.putExtra("productDescription", productDescriptionGone.getText().toString());
         intent.putExtras(b);
