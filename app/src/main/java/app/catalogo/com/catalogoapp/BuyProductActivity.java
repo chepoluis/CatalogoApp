@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.DateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,7 +96,7 @@ public class BuyProductActivity extends AppCompatActivity
         customerNameIntent = getIntent().getExtras().getString("customerName");
         if(customerNameIntent == null)
         {
-            customerName.setText("Customer: -choose customer-");
+            customerName.setText("Customer: -Choose-");
         }
         else
         {
@@ -171,6 +173,7 @@ public class BuyProductActivity extends AppCompatActivity
         String requestId = cashPurchase.push().getKey();
         sellerRef.child(requestId).setValue(true);
         customerRef.child(requestId).setValue(true);
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
         HashMap map = new HashMap();
         map.put("customerAddress", customerAddress);
@@ -185,6 +188,8 @@ public class BuyProductActivity extends AppCompatActivity
         map.put("productKey", productKeyIntent);
         map.put("imageProduct", imageIntent);
         map.put("customerImage", customerImage);
+        map.put("productDescription", descriptionIntent);
+        map.put("saleDate",currentDateTimeString);
         cashPurchase.child(requestId).updateChildren(map);
 
         // Subtract 1 from the product sold and update in the database

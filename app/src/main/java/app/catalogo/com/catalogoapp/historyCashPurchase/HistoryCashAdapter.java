@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -38,8 +37,16 @@ public class HistoryCashAdapter extends RecyclerView.Adapter<HistoryCashViewHold
         holder.saleId.setText(itemList.get(position).getSaleId());
         holder.customerName.setText("Customer: " + itemList.get(position).getCustomerName());
         holder.productPurchased.setText("Product: " + itemList.get(position).getProductPurchased());
-        holder.productCost.setText("$ " + itemList.get(position).getProductCost() + " MXN");
-        Glide.with(context).load(itemList.get(position).getImage()).into(holder.customerImage);
+        holder.productCost.setText("Price: $ " + itemList.get(position).getProductCost() + " MXN");
+        holder.productDescriptionGone.setText("Description: " + itemList.get(position).getProductDescription());
+        holder.saleDate.setText("Date: " + itemList.get(position).getSaleDate());
+        holder.customerCityGone.setText("City: " + itemList.get(position).getCustomerCity());
+        holder.customerAddressGone.setText("Address: " + itemList.get(position).getCustomerAddress());
+        holder.customerPhoneGone.setText("Phone: " + itemList.get(position).getCustomerPhone());
+        holder.sellerGone.setText("Seller: " + itemList.get(position).getSeller());
+        holder.customerImageGone.setText(itemList.get(position).getCustomerImage());
+        holder.productImageGone.setText(itemList.get(position).getProductImage());
+        Glide.with(context).load(itemList.get(position).getCustomerImage()).into(holder.customerImage);
     }
 
     // This method provides the numbers of objects in the CardView

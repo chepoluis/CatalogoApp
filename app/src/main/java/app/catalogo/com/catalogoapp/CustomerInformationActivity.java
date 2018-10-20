@@ -46,9 +46,6 @@ public class CustomerInformationActivity extends AppCompatActivity
     private DatabaseReference mUserDatabase;
     private String userID;
 
-    private RecyclerView mPeopleRV;
-    private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter<Customer, CustomersActivity.CustomerViewHolder> mCustomerRVAdapter;
     ImageView image;
 
     EditText customerName;
@@ -62,8 +59,6 @@ public class CustomerInformationActivity extends AppCompatActivity
 
     FirebaseDatabase db;
     DatabaseReference customers;
-    DatabaseReference keyP;
-    DatabaseReference keyCustomer;
     String customer_key;
 
 

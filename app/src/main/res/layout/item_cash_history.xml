@@ -13,11 +13,11 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/customerPic"
-            android:layout_width="150dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:layout_margin="10dp" />
+        android:id="@+id/customerPic"
+        android:layout_width="150dp"
+        android:layout_height="120dp"
+        android:scaleType="centerCrop"
+        android:layout_margin="10dp" />
 
         <LinearLayout
             android:paddingTop="20dp"
@@ -47,15 +47,62 @@
                 android:textSize="15dp"
                 android:text="Product cost"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/saleDate"
+                android:textSize="15dp"
+                android:text="Date"/>
+
         </LinearLayout>
 
         <TextView
             android:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/saleId"
-            android:textSize="15dp"
-            android:text="Sale id"/>
+            android:id="@+id/saleId"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageCustomerGone"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/productImageGone"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/customerAddressGone"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/customerCityGone"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/customerPhoneGone"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/sellerGone"/>
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/productDescriptionGone"/>
 
     </RelativeLayout>
 

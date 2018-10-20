@@ -175,7 +175,7 @@ public class SalesMadeActivity extends AppCompatActivity
                 holder.setCustomerName(sale.getCustomerName());
                 holder.setProductName(sale.getProductPurchased());
                 holder.setProductPrice("$ " + sale.getProductCost() + " MXN");
-                holder.setImage(getBaseContext(), sale.getImage());
+                holder.setCustomerImage(getBaseContext(), sale.getCustomerImage());
 
                 holder.mViewCash.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -187,7 +187,7 @@ public class SalesMadeActivity extends AppCompatActivity
                         intent.putExtra("productDescription", product.getDescription());
                         intent.putExtra("productPrice", product.getPrice());
                         intent.putExtra("productAmount", product.getAmount());
-                        intent.putExtra("productImage", product.getImage());
+                        intent.putExtra("productImage", product.getCustomerImage());
                         startActivity(intent);*//*
                     }
                 });
@@ -316,14 +316,18 @@ public class SalesMadeActivity extends AppCompatActivity
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
                     String saleId = dataSnapshot.getKey();
-                    Long timestamp = 0L;
-                    String distance = "";
-                    Double ridePrice = 0.0;
 
                     String customerName = "";
+                    String customerAddress = "";
+                    String customerCity = "";
+                    String customerPhone = "";
+                    String seller = "";
                     String productName = "";
                     String productCost = "";
                     String customerImage = "";
+                    String productImage = "";
+                    String productDescription = "";
+                    String saleDate = "";
 
                     /*
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
@@ -335,6 +339,22 @@ public class SalesMadeActivity extends AppCompatActivity
 
                     if (dataSnapshot.child("customerName").getValue() != null) {
                         customerName = dataSnapshot.child("customerName").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("customerCity").getValue() != null) {
+                        customerCity = dataSnapshot.child("customerCity").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("customerAddress").getValue() != null) {
+                        customerAddress = dataSnapshot.child("customerAddress").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("customerPhone").getValue() != null) {
+                        customerPhone = dataSnapshot.child("customerPhone").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("sellerName").getValue() != null) {
+                        seller = dataSnapshot.child("sellerName").getValue().toString();
                     }
 
                     if (dataSnapshot.child("product").getValue() != null) {
@@ -349,7 +369,19 @@ public class SalesMadeActivity extends AppCompatActivity
                         customerImage = dataSnapshot.child("customerImage").getValue().toString();
                     }
 
-                    HistoryCashObject obj = new HistoryCashObject(saleId, customerName, productName, productCost, customerImage);
+                    if (dataSnapshot.child("imageProduct").getValue() != null) {
+                        productImage = dataSnapshot.child("imageProduct").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("saleDate").getValue() != null) {
+                        saleDate = dataSnapshot.child("saleDate").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("productDescription").getValue() != null) {
+                        productDescription = dataSnapshot.child("productDescription").getValue().toString();
+                    }
+
+                    HistoryCashObject obj = new HistoryCashObject(saleId, customerName, customerAddress, customerCity, customerPhone, seller, productName, productCost, customerImage, productImage, productDescription, saleDate);
                     resultsHistory.add(obj);
                     mHistoryAdapter.notifyDataSetChanged();
                 }

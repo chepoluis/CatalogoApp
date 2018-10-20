@@ -17,6 +17,15 @@ public class HistoryCashViewHolders extends RecyclerView.ViewHolder implements V
     public TextView productPurchased;
     public TextView productCost;
     public ImageView customerImage;
+    public TextView saleDate;
+
+    public TextView customerImageGone;
+    public TextView productImageGone;
+    public TextView customerAddressGone;
+    public TextView customerCityGone;
+    public TextView customerPhoneGone;
+    public TextView sellerGone;
+    public TextView productDescriptionGone;
 
     public HistoryCashViewHolders(View itemView) {
         super(itemView);
@@ -27,6 +36,15 @@ public class HistoryCashViewHolders extends RecyclerView.ViewHolder implements V
         productPurchased = itemView.findViewById(R.id.product);
         productCost = itemView.findViewById(R.id.product_c);
         customerImage = itemView.findViewById(R.id.customerPic);
+        saleDate = itemView.findViewById(R.id.saleDate);
+
+        customerImageGone = itemView.findViewById(R.id.imageCustomerGone);
+        productImageGone = itemView.findViewById(R.id.productImageGone);
+        customerAddressGone = itemView.findViewById(R.id.customerAddressGone);
+        customerCityGone = itemView.findViewById(R.id.customerCityGone);
+        customerPhoneGone = itemView.findViewById(R.id.customerPhoneGone);
+        sellerGone = itemView.findViewById(R.id.sellerGone);
+        productDescriptionGone = itemView.findViewById(R.id.productDescriptionGone);
     }
 
     // Is triggered when a card of recycler view is click
@@ -35,6 +53,19 @@ public class HistoryCashViewHolders extends RecyclerView.ViewHolder implements V
         Intent intent = new Intent(v.getContext(), HistoryCashSingleActivity.class);
         Bundle b = new Bundle();
         b.putString("saleId", saleId.getText().toString());
+        intent.putExtra("saleId", saleId.getText().toString());
+        intent.putExtra("customerName", customerName.getText().toString());
+        intent.putExtra("productPurchase", productPurchased.getText().toString());
+        intent.putExtra("productCost", productCost.getText().toString());
+        intent.putExtra("saleDate", saleDate.getText().toString());
+
+        intent.putExtra("customerImage", customerImageGone.getText().toString());
+        intent.putExtra("productImage", productImageGone.getText().toString());
+        intent.putExtra("customerCity", customerCityGone.getText().toString());
+        intent.putExtra("customerAddress", customerAddressGone.getText().toString());
+        intent.putExtra("customerPhone", customerPhoneGone.getText().toString());
+        intent.putExtra("seller", sellerGone.getText().toString());
+        intent.putExtra("productDescription", productDescriptionGone.getText().toString());
         intent.putExtras(b);
         v.getContext().startActivity(intent);
     }
