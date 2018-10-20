@@ -20,6 +20,14 @@
             android:id="@+id/nav_customers"
             android:icon="@drawable/ic_contacts_black_24dp"
             android:title="Customers" />
+        <item
+            android:id="@+id/nav_sales_made"
+            android:icon="@drawable/ic_attach_money_black_24dp"
+            android:title="Sales made" />
+        <item
+            android:id="@+id/nav_purchases_by_user"
+            android:icon="@drawable/ic_assignment_ind_black_24dp"
+            android:title="Purschases by user" />
     </group>
 
     <item android:title="Communicate">

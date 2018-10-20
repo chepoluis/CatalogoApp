@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -59,6 +60,7 @@ public class HomeActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -99,7 +101,7 @@ public class HomeActivity extends AppCompatActivity
         mDatabase.keepSynced(true);
 
         // Check if there are products and show a text
-        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
         rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -139,18 +141,25 @@ public class HomeActivity extends AppCompatActivity
                 holder.setAmount("Existing amount: " + product.getAmount());
                 holder.setImage(getBaseContext(), product.getImage());
 
+
                 holder.mView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(HomeActivity.this, BuyProductActivity.class);
-                        intent.putExtra("productKey", product.getProductKey());
-                        intent.putExtra("productName",product.getName());
-                        intent.putExtra("productDescription",product.getDescription());
-                        intent.putExtra("productPrice",product.getPrice());
-                        intent.putExtra("productAmount",product.getAmount());
-                        intent.putExtra("productImage",product.getImage());
-                        startActivity(intent);
-                        finish();
+                        if(product.getAmount().equals("0"))
+                        {
+                            Toast.makeText(HomeActivity.this, "Out of stock!", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            Intent intent = new Intent(HomeActivity.this, BuyProductActivity.class);
+                            intent.putExtra("productKey", product.getProductKey());
+                            intent.putExtra("productName",product.getName());
+                            intent.putExtra("productDescription",product.getDescription());
+                            intent.putExtra("productPrice",product.getPrice());
+                            intent.putExtra("productAmount",product.getAmount());
+                            intent.putExtra("productImage",product.getImage());
+                            startActivity(intent);
+                        }
                     }
                 });
             }
@@ -288,6 +297,12 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(this, AllCustomersActivity.class);
             startActivity(intent);
             finish();
+        } else if(id == R.id.nav_sales_made) {
+            Intent intent = new Intent(HomeActivity.this, SalesMadeActivity.class);
+            startActivity(intent);
+            finish();
+        } else if(id == R.id.nav_purchases_by_user) {
+
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

@@ -15,6 +15,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +45,7 @@ public class BuyProductActivity extends AppCompatActivity
 
     int amountProduct = 0;
     String nameIntent, descriptionIntent, priceIntent, imageIntent, customerNameIntent, productKeyIntent, amountProductIntent;
-    String customerKey = "", customerAddress, customerCity, customerPhone;
+    String customerKey = "", customerAddress, customerCity, customerPhone, customerImage;
 
     TextView textName, textEmail;
     String mName, mEmail;
@@ -51,6 +53,10 @@ public class BuyProductActivity extends AppCompatActivity
     private FirebaseAuth mAuth;
     private DatabaseReference mUserDatabase;
     private String userID;
+
+    RadioGroup radioGroup;
+    RadioButton rbCashPayment, rbCreditPayment;
+    String paymentMethod = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,10 @@ public class BuyProductActivity extends AppCompatActivity
 
         customerName = findViewById(R.id.nameCustomer);
         chooseCustomer = findViewById(R.id.chooseCustomer);
+
+        radioGroup = findViewById(R.id.radioGroup);
+        rbCashPayment = findViewById(R.id.rbCashPayment);
+        rbCreditPayment = findViewById(R.id.rbCreditPayment);
         btnPay = findViewById(R.id.btnPay);
 
         productKeyIntent = getIntent().getExtras().getString("productKey");
@@ -80,10 +90,11 @@ public class BuyProductActivity extends AppCompatActivity
         customerAddress = getIntent().getExtras().getString("customerAddress");
         customerPhone = getIntent().getExtras().getString("customerPhone");
         customerCity = getIntent().getExtras().getString("customerCity");
+        customerImage = getIntent().getExtras().getString("customerImage");
         customerNameIntent = getIntent().getExtras().getString("customerName");
         if(customerNameIntent == null)
         {
-            customerName.setText("Customer: ...");
+            customerName.setText("Customer: -choose customer-");
         }
         else
         {
@@ -116,7 +127,14 @@ public class BuyProductActivity extends AppCompatActivity
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                recordSale();
+                if(rbCashPayment.isChecked())
+                {
+                    recordSale();
+                }
+                else if(rbCreditPayment.isChecked())
+                {
+                    Toast.makeText(BuyProductActivity.this, "Funtion not available", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -165,18 +183,12 @@ public class BuyProductActivity extends AppCompatActivity
         map.put("price", priceIntent);
         map.put("product", nameIntent);
         map.put("productKey", productKeyIntent);
+        map.put("imageProduct", imageIntent);
+        map.put("customerImage", customerImage);
         cashPurchase.child(requestId).updateChildren(map);
 
+        // Subtract 1 from the product sold and update in the database
         amountProduct--;
-
-        /*Product product = new Product();
-        product.setProductKey(productKeyIntent);
-        product.setName(productName.getText().toString());
-        product.setDescription(productDescription.getText().toString());
-        product.setPrice(productPrice.getText().toString());
-        product.setAmount(String.valueOf(amountProduct));
-        product.setImage(imageIntent);*/
-
         products.child(productKeyIntent)
                 .child("amount")
                 .setValue(String.valueOf(amountProduct))
@@ -185,6 +197,9 @@ public class BuyProductActivity extends AppCompatActivity
                     public void onSuccess(Void aVoid) {
                         Toast.makeText(BuyProductActivity.this, "Purchase made", Toast.LENGTH_LONG)
                                 .show();
+                        Intent intent = new Intent(BuyProductActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

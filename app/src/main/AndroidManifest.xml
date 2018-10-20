@@ -34,7 +34,9 @@
         <activity android:name=".CustomersActivity" />
         <activity android:name=".CustomerInformationActivity" />
         <activity android:name=".BuyProductActivity" />
-        <activity android:name=".ChooseCustomerActivity"></activity>
+        <activity android:name=".ChooseCustomerActivity" />
+        <activity android:name=".SalesMadeActivity" />
+        <activity android:name=".HistoryCashSingleActivity"></activity>
     </application>
 
 </manifest>
