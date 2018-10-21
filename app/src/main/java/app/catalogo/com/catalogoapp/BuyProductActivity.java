@@ -1,5 +1,6 @@
 package app.catalogo.com.catalogoapp;
 
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -9,15 +10,19 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
@@ -35,15 +40,34 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import app.catalogo.com.catalogoapp.Model.Product;
+import app.catalogo.com.catalogoapp.Payments.NumberPayments;
+import app.catalogo.com.catalogoapp.Time.TimePickerFragment;
 
 public class BuyProductActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, TimePickerDialog.OnTimeSetListener {
 
     ImageView productImage;
     TextView productName, productPrice, productDescription;
     TextView customerName;
     Button chooseCustomer, btnPay;
+
+    LinearLayout collect;
+    LinearLayout dayCollection;
+    LinearLayout hourAmid;
+    LinearLayout amount;
+    LinearLayout payments;
+
+    TextView firstHour, firstMinute;
+    String stringFirstHour = "";
+    TextView firstPoint;
+
+    TextView secondHour, secondMinute;
+    String stringSecondHour = "";
+    TextView secondPoint;
+    String hour = "";
+
+    EditText amountMoney;
+    TextView numberPayments;
 
     int amountProduct = 0;
     String nameIntent, descriptionIntent, priceIntent, imageIntent, customerNameIntent,
@@ -79,6 +103,53 @@ public class BuyProductActivity extends AppCompatActivity
         rbCashPayment = findViewById(R.id.rbCashPayment);
         rbCreditPayment = findViewById(R.id.rbCreditPayment);
         btnPay = findViewById(R.id.btnPay);
+
+        firstHour = findViewById(R.id.firstHour);
+        firstMinute = findViewById(R.id.firstMinute);
+        firstPoint = findViewById(R.id.firstDoublePoint);
+        secondHour = findViewById(R.id.secondHour);
+        secondMinute = findViewById(R.id.secondMinute);
+        secondPoint = findViewById(R.id.secondDoublePoint);
+        firstHour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hour = "first";
+                android.support.v4.app.DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+
+        secondHour.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                hour = "second";
+                android.support.v4.app.DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getSupportFragmentManager(), "time picker");
+            }
+        });
+
+        amountMoney = findViewById(R.id.amountMoney);
+        numberPayments = findViewById(R.id.numberPayments);
+
+
+        // Get the amount of payments
+        amountMoney.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                NumberPayments payments = new NumberPayments();
+                numberPayments.setText(payments.getNumberPayments(Double.parseDouble(priceIntent), Double.parseDouble(amountMoney.getText().toString())));
+            }
+        });
 
         productKeyIntent = getIntent().getExtras().getString("productKey");
         nameIntent = getIntent().getExtras().getString("productName");
@@ -124,10 +195,37 @@ public class BuyProductActivity extends AppCompatActivity
                 intent.putExtra("productAmount", amountProductIntent);
                 intent.putExtra("productDescription", descriptionIntent);
                 startActivity(intent);
-                finish();
             }
         });
 
+        collect = findViewById(R.id.collect);
+        dayCollection = findViewById(R.id.dayCollection);
+        hourAmid = findViewById(R.id.hourAmid);
+        amount = findViewById(R.id.amount);
+        payments = findViewById(R.id.payments);
+
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if(checkedId == R.id.rbCashPayment)
+                {
+                    collect.setVisibility(View.GONE);
+                    dayCollection.setVisibility(View.GONE);
+                    hourAmid.setVisibility(View.GONE);
+                    amount.setVisibility(View.GONE);
+                    payments.setVisibility(View.GONE);
+                } 
+                else if(checkedId == R.id.rbCreditPayment)
+                {
+                    collect.setVisibility(View.VISIBLE);
+                    dayCollection.setVisibility(View.VISIBLE);
+                    hourAmid.setVisibility(View.VISIBLE);
+                    amount.setVisibility(View.VISIBLE);
+                    payments.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,6 +264,7 @@ public class BuyProductActivity extends AppCompatActivity
 
     }
 
+    // Save the sale in the database
     private void recordSale() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference sellerRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("cashPurchase");
@@ -282,5 +381,25 @@ public class BuyProductActivity extends AppCompatActivity
                 Log.e("Error: ", databaseError.toString());
             }
         });
+    }
+
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        if(hour.equals("first"))
+        {
+            stringFirstHour = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+            firstHour.setText(String.valueOf(hourOfDay));
+            firstPoint.setText(":");
+            firstMinute.setText(String.valueOf(minute));
+            Toast.makeText(this, stringFirstHour, Toast.LENGTH_SHORT).show();
+        }
+        else if (hour.equals("second"))
+        {
+            stringSecondHour = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
+            secondHour.setText(String.valueOf(hourOfDay));
+            secondPoint.setText(":");
+            secondMinute.setText(String.valueOf(minute));
+            Toast.makeText(this, stringSecondHour, Toast.LENGTH_SHORT).show();
+        }
     }
 }

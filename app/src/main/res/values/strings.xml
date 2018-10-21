@@ -7,4 +7,19 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_add">Add product</string>
+
+    <string-array name="collect">
+        <item>Week</item>
+        <item>Fortnight</item>
+        <item>Month</item>
+    </string-array>
+
+    <string-array name="day">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+    </string-array>
 </resources>

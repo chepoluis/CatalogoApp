@@ -87,7 +87,7 @@ public class SalesMadeActivity extends AppCompatActivity
         //----------
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sales made");
+        toolbar.setTitle("Cash sales");
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
