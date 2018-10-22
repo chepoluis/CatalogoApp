@@ -301,8 +301,10 @@ public class HomeActivity extends AppCompatActivity
             Intent intent = new Intent(HomeActivity.this, SalesMadeActivity.class);
             startActivity(intent);
             finish();
-        } else if(id == R.id.nav_purchases_by_user) {
-
+        } else if(id == R.id.nav_credit_sales) {
+            Intent intent = new Intent(HomeActivity.this, CreditSalesActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

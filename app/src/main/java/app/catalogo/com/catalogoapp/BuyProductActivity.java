@@ -15,12 +15,15 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -68,11 +71,16 @@ public class BuyProductActivity extends AppCompatActivity
 
     EditText amountMoney;
     TextView numberPayments;
+    String numberOfPaymentsString;
+    String amountOfMoneyString;
+    EditText initialPay;
+    String initialPayString;
 
     int amountProduct = 0;
     String nameIntent, descriptionIntent, priceIntent, imageIntent, customerNameIntent,
             productKeyIntent, amountProductIntent;
-    String customerKey = "", customerAddress, customerCity, customerPhone, customerEmail, customerImage;
+    String customerKey = "", customerAddress, customerCity, customerPhone,
+            customerEmail, customerImage;
 
     TextView textName, textEmail;
     String mName, mEmail;
@@ -84,6 +92,11 @@ public class BuyProductActivity extends AppCompatActivity
     RadioGroup radioGroup;
     RadioButton rbCashPayment, rbCreditPayment;
     String paymentMethod = "";
+
+    Spinner collectWhen;
+    String collectWhenString;
+    Spinner dayCollect;
+    String dayCollectString;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +115,42 @@ public class BuyProductActivity extends AppCompatActivity
         radioGroup = findViewById(R.id.radioGroup);
         rbCashPayment = findViewById(R.id.rbCashPayment);
         rbCreditPayment = findViewById(R.id.rbCreditPayment);
+
+        collectWhen = findViewById(R.id.spinnerCollect);
+        ArrayAdapter<CharSequence> collectWhenAdapter = ArrayAdapter.createFromResource(this, R.array.collect, android.R.layout.simple_spinner_item);
+        collectWhenAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        collectWhen.setAdapter(collectWhenAdapter);
+
+        collectWhen.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                collectWhenString = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(BuyProductActivity.this, collectWhenString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        dayCollect = findViewById(R.id.spinnerDay);
+        ArrayAdapter<CharSequence> dayAdapter = ArrayAdapter.createFromResource(this, R.array.day, android.R.layout.simple_spinner_item);
+        dayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dayCollect.setAdapter(dayAdapter);
+        dayCollect.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                dayCollectString = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(BuyProductActivity.this, dayCollectString, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         btnPay = findViewById(R.id.btnPay);
 
         firstHour = findViewById(R.id.firstHour);
@@ -130,7 +179,7 @@ public class BuyProductActivity extends AppCompatActivity
 
         amountMoney = findViewById(R.id.amountMoney);
         numberPayments = findViewById(R.id.numberPayments);
-
+        initialPay = findViewById(R.id.initialPay);
 
         // Get the amount of payments
         amountMoney.addTextChangedListener(new TextWatcher() {
@@ -147,7 +196,27 @@ public class BuyProductActivity extends AppCompatActivity
             @Override
             public void afterTextChanged(Editable s) {
                 NumberPayments payments = new NumberPayments();
-                numberPayments.setText(payments.getNumberPayments(Double.parseDouble(priceIntent), Double.parseDouble(amountMoney.getText().toString())));
+                amountOfMoneyString = amountMoney.getText().toString();
+                numberOfPaymentsString = payments.getNumberPayments(Double.parseDouble(priceIntent), Double.parseDouble(amountMoney.getText().toString()));
+                numberPayments.setText(numberOfPaymentsString);
+            }
+        });
+
+        initialPay.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                initialPayString = initialPay.getText().toString();
+                //Toast.makeText(BuyProductActivity.this, initialPayString, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -167,12 +236,9 @@ public class BuyProductActivity extends AppCompatActivity
         customerCity = getIntent().getExtras().getString("customerCity");
         customerImage = getIntent().getExtras().getString("customerImage");
         customerNameIntent = getIntent().getExtras().getString("customerName");
-        if(customerNameIntent == null)
-        {
+        if (customerNameIntent == null) {
             customerName.setText("Customer: -Choose-");
-        }
-        else
-        {
+        } else {
             customerName.setText("Customer: " + customerNameIntent);
         }
 
@@ -207,16 +273,13 @@ public class BuyProductActivity extends AppCompatActivity
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == R.id.rbCashPayment)
-                {
+                if (checkedId == R.id.rbCashPayment) {
                     collect.setVisibility(View.GONE);
                     dayCollection.setVisibility(View.GONE);
                     hourAmid.setVisibility(View.GONE);
                     amount.setVisibility(View.GONE);
                     payments.setVisibility(View.GONE);
-                } 
-                else if(checkedId == R.id.rbCreditPayment)
-                {
+                } else if (checkedId == R.id.rbCreditPayment) {
                     collect.setVisibility(View.VISIBLE);
                     dayCollection.setVisibility(View.VISIBLE);
                     hourAmid.setVisibility(View.VISIBLE);
@@ -225,17 +288,14 @@ public class BuyProductActivity extends AppCompatActivity
                 }
             }
         });
-        
+
         btnPay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(rbCashPayment.isChecked())
-                {
-                    recordSale();
-                }
-                else if(rbCreditPayment.isChecked())
-                {
-                    Toast.makeText(BuyProductActivity.this, "Funtion not available", Toast.LENGTH_SHORT).show();
+                if (rbCashPayment.isChecked()) {
+                    saveCashSale();
+                } else if (rbCreditPayment.isChecked()) {
+                    saveCreditSale();
                 }
             }
         });
@@ -264,8 +324,75 @@ public class BuyProductActivity extends AppCompatActivity
 
     }
 
+    private void saveCreditSale() {
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference sellerRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("creditPurchase");
+        DatabaseReference customerRef = FirebaseDatabase.getInstance().getReference().child("Customers").child(customerKey).child("creditPurchase");
+        DatabaseReference creditPurchase = FirebaseDatabase.getInstance().getReference().child("creditPurchase");
+        DatabaseReference products = FirebaseDatabase.getInstance().getReference().child("Products");
+        String requestId = creditPurchase.push().getKey();
+        sellerRef.child(requestId).setValue(true);
+        customerRef.child(requestId).setValue(true);
+        String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+
+        HashMap map = new HashMap();
+        map.put("customerAddress", customerAddress);
+        map.put("customerCity", customerCity);
+        map.put("customerKey", customerKey);
+        map.put("sellerId", userID);
+        map.put("customerName", customerNameIntent);
+        map.put("sellerName", mName);
+        map.put("customerPhone", customerPhone);
+        map.put("customerEmail", customerEmail);
+        map.put("price", priceIntent);
+        map.put("product", nameIntent);
+        map.put("productKey", productKeyIntent);
+        map.put("imageProduct", imageIntent);
+        map.put("customerImage", customerImage);
+        map.put("productDescription", descriptionIntent);
+        map.put("saleDate", currentDateTimeString);
+
+        map.put("collectWhen", collectWhenString);
+        map.put("collectDay", dayCollectString);
+        map.put("firstHour", stringFirstHour);
+        map.put("secondHour", stringSecondHour);
+        map.put("amountMoney", amountOfMoneyString);
+        map.put("initialPay", initialPayString);
+        map.put("numberPayments", numberOfPaymentsString);
+
+        double initialPayDouble = Double.parseDouble(initialPayString);
+        double productCostDouble = Double.parseDouble(priceIntent);
+        double debt = (productCostDouble - initialPayDouble);
+
+        map.put("debt", debt);
+        creditPurchase.child(requestId).updateChildren(map);
+
+        // Subtract 1 from the product sold and update in the database
+        amountProduct--;
+        products.child(productKeyIntent)
+                .child("amount")
+                .setValue(String.valueOf(amountProduct))
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(BuyProductActivity.this, "Purchase made", Toast.LENGTH_LONG)
+                                .show();
+                        Intent intent = new Intent(BuyProductActivity.this, HomeActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(BuyProductActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+    }
+
     // Save the sale in the database
-    private void recordSale() {
+    private void saveCashSale() {
         String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         DatabaseReference sellerRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("cashPurchase");
         DatabaseReference customerRef = FirebaseDatabase.getInstance().getReference().child("Customers").child(customerKey).child("cashPurchase");
@@ -291,7 +418,7 @@ public class BuyProductActivity extends AppCompatActivity
         map.put("imageProduct", imageIntent);
         map.put("customerImage", customerImage);
         map.put("productDescription", descriptionIntent);
-        map.put("saleDate",currentDateTimeString);
+        map.put("saleDate", currentDateTimeString);
         cashPurchase.child(requestId).updateChildren(map);
 
         // Subtract 1 from the product sold and update in the database
@@ -359,12 +486,12 @@ public class BuyProductActivity extends AppCompatActivity
 
                 Map<String, Object> map = (Map<String, Object>) dataSnapshot.getValue();
 
-                if(map.get("name") != null) {
+                if (map.get("name") != null) {
                     mName = map.get("name").toString();
                     textName.setText(mName);
                 }
 
-                if(map.get("email") != null){
+                if (map.get("email") != null) {
                     mEmail = map.get("email").toString();
                     textEmail.setText(mEmail);
                 }
@@ -376,6 +503,7 @@ public class BuyProductActivity extends AppCompatActivity
                         Glide.with(getApplication()).load(mProfileImageUrl).into(mProfileImage);
                     }*/
             }
+
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("Error: ", databaseError.toString());
@@ -385,16 +513,13 @@ public class BuyProductActivity extends AppCompatActivity
 
     @Override
     public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        if(hour.equals("first"))
-        {
+        if (hour.equals("first")) {
             stringFirstHour = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
             firstHour.setText(String.valueOf(hourOfDay));
             firstPoint.setText(":");
             firstMinute.setText(String.valueOf(minute));
             Toast.makeText(this, stringFirstHour, Toast.LENGTH_SHORT).show();
-        }
-        else if (hour.equals("second"))
-        {
+        } else if (hour.equals("second")) {
             stringSecondHour = String.valueOf(hourOfDay) + ":" + String.valueOf(minute);
             secondHour.setText(String.valueOf(hourOfDay));
             secondPoint.setText(":");

@@ -115,7 +115,6 @@ public class AllCustomersActivity extends AppCompatActivity
         DatabaseReference personsRef = FirebaseDatabase.getInstance().getReference().child("Customers");
         Query personsQuery = personsRef.orderByKey();
 
-
         mCustomerRV.hasFixedSize();
         mCustomerRV.setLayoutManager(new LinearLayoutManager(this));
 

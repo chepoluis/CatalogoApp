@@ -113,7 +113,7 @@ public class AddCustomersActivity extends AppCompatActivity
                 customer.setEmail(customerEmail.getText().toString());
                 customer.setImage(customerImage.getText().toString());
 
-                // Save the product
+                // Save the customer
                 customers.child(keyDb)
                         .setValue(customer)
                         .addOnSuccessListener(new OnSuccessListener<Void>() {

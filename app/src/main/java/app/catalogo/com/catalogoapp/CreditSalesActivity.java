@@ -13,33 +13,30 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Map;
 
-import app.catalogo.com.catalogoapp.Model.Product;
+import app.catalogo.com.catalogoapp.creditPurchase.CreditAdapter;
+import app.catalogo.com.catalogoapp.creditPurchase.CreditObject;
 import app.catalogo.com.catalogoapp.historyCashPurchase.HistoryCashActivity;
 import app.catalogo.com.catalogoapp.historyCashPurchase.HistoryCashAdapter;
 import app.catalogo.com.catalogoapp.historyCashPurchase.HistoryCashObject;
 
-public class SalesMadeActivity extends AppCompatActivity
+public class CreditSalesActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     TextView textName, textEmail;
@@ -53,35 +50,33 @@ public class SalesMadeActivity extends AppCompatActivity
     ImageView icon_empty;
 
 /*
-    private RecyclerView mSaleRV;
+    private RecyclerView mCreditSaleRV;
     private DatabaseReference mDatabase;
-    private FirebaseRecyclerAdapter<HistoryCashObject, HistoryCashActivity.SalesViewHolder> mSaleRVAdapter;
+    private FirebaseRecyclerAdapter<CreditObject, HistoryCashActivity.SalesViewHolder> mSaleRVAdapter;
 */
 
     //----
-    private String userId;
+    private String customerOrDriver, userId;
 
-    private RecyclerView mHistoryRecyclerView;
-    private RecyclerView.Adapter mHistoryAdapter;
-    private RecyclerView.LayoutManager mHistoryLayoutManager;
+    private RecyclerView mCreditRecyclerView;
+    private RecyclerView.Adapter mCreditAdapter;
+    private RecyclerView.LayoutManager mCreditLayoutManager;
 
     //---
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sales_made);
+        setContentView(R.layout.activity_credit_sales);
 
-        //----------
-
-        mHistoryRecyclerView = (RecyclerView) findViewById(R.id.historyRecyclerView);
+        mCreditRecyclerView = (RecyclerView) findViewById(R.id.historyRecyclerViewCredit);
         // setNestedScrollingEnabled: make the scroll more natural
-        mHistoryRecyclerView.setNestedScrollingEnabled(false);
-        mHistoryRecyclerView.setHasFixedSize(true);
-        mHistoryLayoutManager = new LinearLayoutManager(SalesMadeActivity.this);
-        mHistoryRecyclerView.setLayoutManager(mHistoryLayoutManager);
-        mHistoryAdapter = new HistoryCashAdapter(getDataSetHistory(), SalesMadeActivity.this);
-        mHistoryRecyclerView.setAdapter(mHistoryAdapter);
+        mCreditRecyclerView.setNestedScrollingEnabled(false);
+        mCreditRecyclerView.setHasFixedSize(true);
+        mCreditLayoutManager = new LinearLayoutManager(CreditSalesActivity.this);
+        mCreditRecyclerView.setLayoutManager(mCreditLayoutManager);
+        mCreditAdapter = new CreditAdapter(getDataSetCredit(), CreditSalesActivity.this);
+        mCreditRecyclerView.setAdapter(mCreditAdapter);
 
         userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
         getUserHistoryIds();
@@ -89,7 +84,7 @@ public class SalesMadeActivity extends AppCompatActivity
         //----------
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Cash sales");
+        toolbar.setTitle("Credit sales");
         setSupportActionBar(toolbar);
 
         mAuth = FirebaseAuth.getInstance();
@@ -112,7 +107,7 @@ public class SalesMadeActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().getItem(4).setChecked(true);
+        navigationView.getMenu().getItem(5).setChecked(true);
 
         // Check if there are sales and show a text
         final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
@@ -120,7 +115,7 @@ public class SalesMadeActivity extends AppCompatActivity
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 // If cashPurchase child exist
-                if (snapshot.hasChild("cashPurchase")) {
+                if (snapshot.hasChild("creditPurchase")) {
                     empty.setVisibility(View.GONE);
                     icon_empty.setVisibility(View.GONE);
                 } else {
@@ -135,77 +130,6 @@ public class SalesMadeActivity extends AppCompatActivity
             }
         });
 
-        /*//"Sales" here will reflect what you have called your database in Firebase.
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("cashPurchase");
-        mDatabase.keepSynced(true);
-
-        // Check if there are sales and show a text
-        final DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference().child("Users").child(userID);
-        rootRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                // If Sales child exist
-                if (snapshot.hasChild("cashPurchase")) {
-                    empty.setVisibility(View.GONE);
-                    icon_empty.setVisibility(View.GONE);
-                } else {
-                    empty.setVisibility(View.VISIBLE);
-                    icon_empty.setVisibility(View.VISIBLE);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("Error: ", databaseError.toString());
-            }
-        });
-
-        mSaleRV = (RecyclerView) findViewById(R.id.myRecycleViewCash);
-
-        DatabaseReference personsRef = FirebaseDatabase.getInstance().getReference().child("cashPurchase");
-        Query personsQuery = personsRef.orderByKey();
-
-        mSaleRV.hasFixedSize();
-        mSaleRV.setLayoutManager(new LinearLayoutManager(this));
-
-        FirebaseRecyclerOptions salesOptions = new FirebaseRecyclerOptions.Builder<HistoryCashObject>()
-                .setQuery(personsQuery, HistoryCashObject.class).build();
-
-        mSaleRVAdapter = new FirebaseRecyclerAdapter<HistoryCashObject, HistoryCashActivity.SalesViewHolder>(salesOptions) {
-            @Override
-            protected void onBindViewHolder(@NonNull HistoryCashActivity.SalesViewHolder holder, int position, @NonNull HistoryCashObject sale) {
-                holder.setCustomerName(sale.getCustomerName());
-                holder.setProductName(sale.getProductPurchased());
-                holder.setProductPrice("$ " + sale.getProductCost() + " MXN");
-                holder.setCustomerImage(getBaseContext(), sale.getCustomerImage());
-
-                holder.mViewCash.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Toast.makeText(SalesMadeActivity.this, "Works!", Toast.LENGTH_SHORT).show();
-                        *//*Intent intent = new Intent(HomeActivity.this, BuyProductActivity.class);
-                        intent.putExtra("productKey", product.getProductKey());
-                        intent.putExtra("productName", product.getName());
-                        intent.putExtra("productDescription", product.getDescription());
-                        intent.putExtra("productPrice", product.getPrice());
-                        intent.putExtra("productAmount", product.getAmount());
-                        intent.putExtra("productImage", product.getCustomerImage());
-                        startActivity(intent);*//*
-                    }
-                });
-            }
-
-            @Override
-            public HistoryCashActivity.SalesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.view_sales_cash, parent, false);
-
-                return new HistoryCashActivity.SalesViewHolder(view);
-            }
-        };
-
-        mSaleRV.setAdapter(mSaleRVAdapter);*/
     }
 
     @Override
@@ -278,27 +202,14 @@ public class SalesMadeActivity extends AppCompatActivity
         });
     }
 
-   /* @Override
-    public void onStart() {
-        super.onStart();
-        mSaleRVAdapter.startListening();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-        mSaleRVAdapter.stopListening();
-    }*/
-
-    //---------
     private void getUserHistoryIds() {
-        DatabaseReference userHistoryDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("cashPurchase");
-        userHistoryDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference userCreditDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(userId).child("creditPurchase");
+        userCreditDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    for (DataSnapshot history : dataSnapshot.getChildren()) {
-                        FetchSaleInformation(history.getKey());
+                    for (DataSnapshot credit : dataSnapshot.getChildren()) {
+                        FetchSaleInformation(credit.getKey());
                     }
                 }
             }
@@ -311,8 +222,8 @@ public class SalesMadeActivity extends AppCompatActivity
     }
 
     private void FetchSaleInformation(String saleKey) {
-        DatabaseReference historyDatabase = FirebaseDatabase.getInstance().getReference().child("cashPurchase").child(saleKey);
-        historyDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference creditDatabase = FirebaseDatabase.getInstance().getReference().child("creditPurchase").child(saleKey);
+        creditDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -332,6 +243,13 @@ public class SalesMadeActivity extends AppCompatActivity
                     String productDescription = "";
                     String saleDate = "";
 
+                    String debt = "";
+                    String collectWhen = "";
+                    String collectDay = "";
+                    String firstHour = "";
+                    String secondHour = "";
+                    String amountMoney = "";
+                    String numberPayments = "";
                     /*
                     for (DataSnapshot child : dataSnapshot.getChildren()) {
                         if (child.getKey().equals("timestamp")) {
@@ -388,9 +306,39 @@ public class SalesMadeActivity extends AppCompatActivity
                         productDescription = dataSnapshot.child("productDescription").getValue().toString();
                     }
 
-                    HistoryCashObject obj = new HistoryCashObject(saleId, customerName, customerAddress, customerCity, customerPhone, customerEmail, seller, productName, productCost, customerImage, productImage, productDescription, saleDate);
-                    resultsHistory.add(obj);
-                    mHistoryAdapter.notifyDataSetChanged();
+                    //--------------------
+
+                    if (dataSnapshot.child("debt").getValue() != null) {
+                        debt = dataSnapshot.child("debt").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("collectWhen").getValue() != null) {
+                        collectWhen = dataSnapshot.child("collectWhen").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("collectDay").getValue() != null) {
+                        collectDay = dataSnapshot.child("collectDay").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("firstHour").getValue() != null) {
+                        firstHour = dataSnapshot.child("firstHour").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("secondHour").getValue() != null) {
+                        secondHour = dataSnapshot.child("secondHour").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("amountMoney").getValue() != null) {
+                        amountMoney = dataSnapshot.child("amountMoney").getValue().toString();
+                    }
+
+                    if (dataSnapshot.child("numberPayments").getValue() != null) {
+                        numberPayments = dataSnapshot.child("numberPayments").getValue().toString();
+                    }
+
+                    CreditObject obj = new CreditObject(saleId, customerName, customerAddress, customerCity, customerPhone, customerEmail, seller, productName, productCost, customerImage, productImage, productDescription, saleDate, debt, collectWhen, collectDay, firstHour, secondHour, amountMoney, numberPayments);
+                    resultsCredit.add(obj);
+                    mCreditAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -401,9 +349,9 @@ public class SalesMadeActivity extends AppCompatActivity
         });
     }
 
-    private ArrayList resultsHistory = new ArrayList<HistoryCashObject>();
+    private ArrayList resultsCredit = new ArrayList<HistoryCashObject>();
 
-    private ArrayList<HistoryCashObject> getDataSetHistory() {
-        return resultsHistory;
+    private ArrayList<CreditObject> getDataSetCredit() {
+        return resultsCredit;
     }
 }

@@ -107,7 +107,7 @@
                 android:layout_height="wrap_content" />
 
             <Spinner
-                android:id="@+id/spinner"
+                android:id="@+id/spinnerCollect"
                 android:entries="@array/collect"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content" />
@@ -127,7 +127,7 @@
                 android:layout_height="wrap_content" />
 
             <Spinner
-                android:id="@+id/day"
+                android:id="@+id/spinnerDay"
                 android:entries="@array/day"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content" />
@@ -205,6 +205,24 @@
                 android:hint="Amount of money"
                 android:inputType="number"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                app:met_singleLineEllipsis="true"
+                app:met_baseColor="@android:color/black"
+                app:met_floatingLabel="highlight"
+                app:met_primaryColor="@android:color/black"
+                />
+
+            <TextView
+                android:text="     "
+                android:layout_width="20dp"
+                android:layout_height="20dp" />
+
+            <com.rengwuxian.materialedittext.MaterialEditText
+                android:id="@+id/initialPay"
+                android:hint="Initial pay"
+                android:inputType="number"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
 
                 app:met_singleLineEllipsis="true"
