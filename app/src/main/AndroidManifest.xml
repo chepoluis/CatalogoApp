@@ -37,7 +37,8 @@
         <activity android:name=".ChooseCustomerActivity" />
         <activity android:name=".SalesMadeActivity" />
         <activity android:name=".HistoryCashSingleActivity" />
-        <activity android:name=".CreditSalesActivity"></activity>
+        <activity android:name=".CreditSalesActivity" />
+        <activity android:name=".CreditSingleActivity"></activity>
     </application>
 
 </manifest>

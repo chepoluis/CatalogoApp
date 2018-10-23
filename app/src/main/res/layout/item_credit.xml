@@ -51,8 +51,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/debt"
+                android:textStyle="bold"
                 android:textSize="15dp"
                 android:text="Debt"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/saleDateCredit"
+                android:textSize="15dp"
+                android:text="Sale date"/>
 
         </LinearLayout>
 

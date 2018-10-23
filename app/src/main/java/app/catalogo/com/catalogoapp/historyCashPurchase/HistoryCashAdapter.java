@@ -39,7 +39,7 @@ public class HistoryCashAdapter extends RecyclerView.Adapter<HistoryCashViewHold
         holder.productPurchased.setText("Product: " + itemList.get(position).getProductPurchased());
         holder.productCost.setText("Price: $ " + itemList.get(position).getProductCost() + " MXN");
         holder.productDescriptionGone.setText("Description: " + itemList.get(position).getProductDescription());
-        holder.saleDate.setText("Date: " + itemList.get(position).getSaleDate());
+        holder.saleDate.setText(itemList.get(position).getSaleDate());
         holder.customerCityGone.setText("City: " + itemList.get(position).getCustomerCity());
         holder.customerAddressGone.setText("Address: " + itemList.get(position).getCustomerAddress());
         holder.customerPhoneGone.setText("Phone: " + itemList.get(position).getCustomerPhone());

@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 
@@ -15,7 +16,7 @@ import app.catalogo.com.catalogoapp.R;
 import app.catalogo.com.catalogoapp.historyCashPurchase.HistoryCashObject;
 import app.catalogo.com.catalogoapp.historyCashPurchase.HistoryCashViewHolders;
 
-public class CreditAdapter extends RecyclerView.Adapter<CreditViewHolders>{
+public class CreditAdapter extends RecyclerView.Adapter<CreditViewHolders> {
 
     private List<CreditObject> itemList;
     private Context context;
@@ -38,23 +39,24 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditViewHolders>{
     @Override
     public void onBindViewHolder(@NonNull CreditViewHolders holder, int position) {
         holder.saleId.setText(itemList.get(position).getSaleId());
-        holder.customerName.setText("Customer: " + itemList.get(position).getCustomerName());
+        holder.customerName.setText(itemList.get(position).getCustomerName());
         holder.productPurchased.setText("Product: " + itemList.get(position).getProductPurchased());
         holder.productCost.setText("Price: $ " + itemList.get(position).getProductCost() + " MXN");
         holder.productDescriptionGone.setText("Description: " + itemList.get(position).getProductDescription());
-        holder.debt.setText("Debt: " + itemList.get(position).getDebt());
+        holder.saleDate.setText(itemList.get(position).getSaleDate());
+        holder.debt.setText("Debt: $ " + itemList.get(position).getDebt() + " MXN");
         holder.customerCityGone.setText("City: " + itemList.get(position).getCustomerCity());
         holder.customerAddressGone.setText("Address: " + itemList.get(position).getCustomerAddress());
         holder.customerPhoneGone.setText("Phone: " + itemList.get(position).getCustomerPhone());
-        holder.customerEmailGone.setText("Email: " + itemList.get(position).getCustomerEmail());
+        holder.customerEmailGone.setText(itemList.get(position).getCustomerEmail());
         holder.sellerGone.setText("Seller: " + itemList.get(position).getSeller());
         holder.customerImageGone.setText(itemList.get(position).getCustomerImage());
         holder.productImageGone.setText(itemList.get(position).getProductImage());
 
         holder.collectWhenGone.setText("Collect: " + itemList.get(position).getCollectWhen());
         holder.collectDayGone.setText("Day: " + itemList.get(position).getCollectDay());
-        holder.firstHourGone.setText("First hour: " + itemList.get(position).getFirstHour());
-        holder.secondHourGone.setText("Second hour: " + itemList.get(position).getSecondHour());
+        holder.firstHourGone.setText("Time: " + itemList.get(position).getFirstHour() + " - ");
+        holder.secondHourGone.setText(itemList.get(position).getSecondHour());
         holder.amountMoneyGone.setText("Amount money: " + itemList.get(position).getAmountMoney());
         holder.initialPayGone.setText(itemList.get(position).getInitialPay());
         holder.numberPaymentsGone.setText("Payments: " + itemList.get(position).getNumberPayments());
@@ -63,5 +65,7 @@ public class CreditAdapter extends RecyclerView.Adapter<CreditViewHolders>{
 
     // This method provides the numbers of objects in the CardView
     @Override
-    public int getItemCount() { return this.itemList.size(); }
+    public int getItemCount() {
+        return this.itemList.size();
+    }
 }

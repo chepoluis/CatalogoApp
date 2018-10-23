@@ -120,7 +120,7 @@ public class HistoryCashSingleActivity extends AppCompatActivity
         getUserName();
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle("Sale");
+        toolbar.setTitle("Cash sale");
         setSupportActionBar(toolbar);
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -135,8 +135,6 @@ public class HistoryCashSingleActivity extends AppCompatActivity
         // Init firebase
         db = FirebaseDatabase.getInstance();
         sale = FirebaseDatabase.getInstance().getReference().child("cashPurchase");
-
-
     }
 
     @Override
@@ -164,7 +162,9 @@ public class HistoryCashSingleActivity extends AppCompatActivity
             startActivity(intent);
             finish();
         } else if(id == R.id.nav_credit_sales) {
-
+            Intent intent = new Intent(this, CreditSalesActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

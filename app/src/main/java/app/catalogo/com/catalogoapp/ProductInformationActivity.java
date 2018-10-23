@@ -253,6 +253,14 @@ public class ProductInformationActivity extends AppCompatActivity
             Intent intent = new Intent(this, AllCustomersActivity.class);
             startActivity(intent);
             finish();
+        } else if(id == R.id.nav_sales_made) {
+            Intent intent = new Intent(this, SalesMadeActivity.class);
+            startActivity(intent);
+            finish();
+        } else if(id == R.id.nav_credit_sales) {
+            Intent intent = new Intent(this, CreditSalesActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {

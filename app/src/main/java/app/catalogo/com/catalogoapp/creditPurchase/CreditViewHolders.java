@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import app.catalogo.com.catalogoapp.CreditSingleActivity;
 import app.catalogo.com.catalogoapp.HistoryCashSingleActivity;
 import app.catalogo.com.catalogoapp.R;
 
@@ -17,6 +18,7 @@ public class CreditViewHolders extends RecyclerView.ViewHolder implements View.O
     public TextView productPurchased;
     public TextView productCost;
     public ImageView customerImage;
+    public TextView saleDate;
     public TextView debt;
 
     public TextView customerImageGone;
@@ -45,6 +47,7 @@ public class CreditViewHolders extends RecyclerView.ViewHolder implements View.O
         productPurchased = itemView.findViewById(R.id.productCredit);
         productCost = itemView.findViewById(R.id.productCostCredit);
         customerImage = itemView.findViewById(R.id.customerPicCredit);
+        saleDate = itemView.findViewById(R.id.saleDateCredit);
         debt = itemView.findViewById(R.id.debt);
 
         customerImageGone = itemView.findViewById(R.id.imageCustomerGoneCredit);
@@ -68,14 +71,22 @@ public class CreditViewHolders extends RecyclerView.ViewHolder implements View.O
     // Is triggered when a card of recycler view is click
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(v.getContext(), HistoryCashSingleActivity.class);
+        Intent intent = new Intent(v.getContext(), CreditSingleActivity.class);
         Bundle b = new Bundle();
         b.putString("saleId", saleId.getText().toString());
         intent.putExtra("saleId", saleId.getText().toString());
         intent.putExtra("customerName", customerName.getText().toString());
         intent.putExtra("productPurchase", productPurchased.getText().toString());
         intent.putExtra("productCost", productCost.getText().toString());
-        intent.putExtra("debt", debt.getText().toString());
+        intent.putExtra("saleDate", saleDate.getText().toString());
+        if(debt.getText().toString().equals("Debt: $ 0 MXN"))
+        {
+            intent.putExtra("debt", "Product paid");
+        }
+        else
+        {
+            intent.putExtra("debt", debt.getText().toString());
+        }
 
         intent.putExtra("customerImage", customerImageGone.getText().toString());
         intent.putExtra("productImage", productImageGone.getText().toString());

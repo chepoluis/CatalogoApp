@@ -227,10 +227,12 @@ public class SalesMadeActivity extends AppCompatActivity
             Intent intent = new Intent(this, AllCustomersActivity.class);
             startActivity(intent);
             finish();
-        } else if (id == R.id.nav_sales_made) {
+        } else if(id == R.id.nav_sales_made) {
             return true;
-        } else if (id == R.id.nav_credit_sales) {
-
+        } else if(id == R.id.nav_credit_sales) {
+            Intent intent = new Intent(this, CreditSalesActivity.class);
+            startActivity(intent);
+            finish();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
