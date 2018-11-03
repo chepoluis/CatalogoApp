@@ -14,9 +14,4 @@
         android:title="Choose image"
         app:showAsAction="never" />
 
-    <item
-        android:id="@+id/action_save"
-        android:orderInCategory="100"
-        android:title="Save"
-        app:showAsAction="never" />
 </menu>

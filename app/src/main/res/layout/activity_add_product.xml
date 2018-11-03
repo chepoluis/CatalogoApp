@@ -85,21 +85,6 @@
             app:met_primaryColor="@color/colorPrimary"
             app:met_singleLineEllipsis="true" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/productImage"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="15dp"
-            android:hint="Image URL"
-            android:inputType="text"
-
-            app:met_baseColor="@color/colorPrimary"
-            app:met_floatingLabel="highlight"
-            app:met_primaryColor="@color/colorPrimary"
-            app:met_singleLineEllipsis="true" />
-
         <Button
             android:id="@+id/add"
             android:layout_width="250dp"

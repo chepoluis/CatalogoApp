@@ -159,8 +159,6 @@ public class AddProductActivity extends AppCompatActivity
             startActivity(intent);
         } else if(id == R.id.action_choose) {
             openFileChooser();
-        } else if(id == R.id.action_save) {
-            uploadFile();
         }
 
         return super.onOptionsItemSelected(item);
