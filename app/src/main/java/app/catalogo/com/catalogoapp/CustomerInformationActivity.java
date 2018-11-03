@@ -1,9 +1,13 @@
 package app.catalogo.com.catalogoapp;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -137,66 +141,90 @@ public class CustomerInformationActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_edit) {
-            // Save product to db
-            Customer customer = new Customer();
-            customer.setCustomerKey(customer_key);
-            customer.setName(customerName.getText().toString());
-            customer.setCity(customerCity.getText().toString());
-            customer.setAddress(customerAddress.getText().toString());
-            customer.setPhoneNumber(customerPhone.getText().toString());
-            customer.setEmail(customerEmail.getText().toString());
-            customer.setImage(customerImage.getText().toString());
-
-            customers.child(customer_key)
-                    .setValue(customer)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(CustomerInformationActivity.this, "Changes done", Toast.LENGTH_LONG)
-                                    .show();
-                            Intent intent = new Intent(CustomerInformationActivity.this, AllCustomersActivity.class);
-                            startActivity(intent);
-                            finish();
-                            return;
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e) {
-                            Toast.makeText(CustomerInformationActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+            saveChangesCustomer();
         } else if (id == R.id.action_delete) {
-
-            DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    switch (which) {
-                        case DialogInterface.BUTTON_POSITIVE:
-                            Toast.makeText(CustomerInformationActivity.this, "Customer eliminated", Toast.LENGTH_SHORT).show();
-                            customers.child(customer_key).removeValue();
-                            Intent intent = new Intent(CustomerInformationActivity.this, AllCustomersActivity.class);
-                            startActivity(intent);
-                            finish();
-                            break;
-
-                        case DialogInterface.BUTTON_NEGATIVE:
-                            Toast.makeText(CustomerInformationActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
-                            break;
-                    }
-                }
-            };
-
-            AlertDialog.Builder builder = new AlertDialog.Builder(CustomerInformationActivity.this);
-            builder.setMessage("Do you want to eliminate " + customerName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
-                    .setNegativeButton("No", dialogClickListener).show();
-
+            deleteCustomer();
         } else if (id == R.id.action_search) {
             Intent intent = new Intent(this, WebViewActivity.class);
             startActivity(intent);
+        } else if (id == R.id.action_call) {
+            callCustomer();
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void callCustomer() {
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneIntent));
+        if(ActivityCompat.checkSelfPermission(CustomerInformationActivity.this, Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(CustomerInformationActivity.this, "Please, activate the permissions", Toast.LENGTH_LONG).show();
+            return;
+        }else{
+            startActivity(intent);
+        }
+        toastMessage("Calling " + nameIntent);
+    }
+
+    public void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    }
+
+    private void deleteCustomer() {
+        DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch (which) {
+                    case DialogInterface.BUTTON_POSITIVE:
+                        Toast.makeText(CustomerInformationActivity.this, "Customer eliminated", Toast.LENGTH_SHORT).show();
+                        customers.child(customer_key).removeValue();
+                        Intent intent = new Intent(CustomerInformationActivity.this, AllCustomersActivity.class);
+                        startActivity(intent);
+                        finish();
+                        break;
+
+                    case DialogInterface.BUTTON_NEGATIVE:
+                        Toast.makeText(CustomerInformationActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        };
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(CustomerInformationActivity.this);
+        builder.setMessage("Do you want to eliminate " + customerName.getText().toString()+"?").setPositiveButton("Yes", dialogClickListener)
+                .setNegativeButton("No", dialogClickListener).show();
+    }
+
+    private void saveChangesCustomer() {
+        // Save customer to db
+        Customer customer = new Customer();
+        customer.setCustomerKey(customer_key);
+        customer.setName(customerName.getText().toString());
+        customer.setCity(customerCity.getText().toString());
+        customer.setAddress(customerAddress.getText().toString());
+        customer.setPhoneNumber(customerPhone.getText().toString());
+        customer.setEmail(customerEmail.getText().toString());
+        customer.setImage(customerImage.getText().toString());
+
+        customers.child(customer_key)
+                .setValue(customer)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Toast.makeText(CustomerInformationActivity.this, "Changes done", Toast.LENGTH_LONG)
+                                .show();
+                        Intent intent = new Intent(CustomerInformationActivity.this, AllCustomersActivity.class);
+                        startActivity(intent);
+                        finish();
+                        return;
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(CustomerInformationActivity.this, "Failed: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     @Override

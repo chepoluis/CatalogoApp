@@ -1,9 +1,13 @@
 package app.catalogo.com.catalogoapp;
 
+import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -13,6 +17,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
 import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -117,7 +122,7 @@ public class CreditSingleActivity extends AppCompatActivity
             public void onClick(View v) {
                 String amount = amountMoneyIntent;
                 String[] s = amount.split(" ");
-                // Get the amount of abono
+                // Get the amount of abono  FIX!
                 final int abonoInt = Integer.valueOf(s[2]);
 
                 AlertDialog.Builder abono = new AlertDialog.Builder(CreditSingleActivity.this);
@@ -274,6 +279,48 @@ public class CreditSingleActivity extends AppCompatActivity
         startActivity(refresh);//Start the same Activity
         finish(); //finish Activity.
     }*/
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.credit_sales_call, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_call) {
+            callCustomer();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void callCustomer() {
+        String string = customerPhoneIntent;
+        String[] parts = string.split(" ");
+        String phoneNumber = parts[1];
+
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phoneNumber));
+        if(ActivityCompat.checkSelfPermission(CreditSingleActivity.this, Manifest.permission.CALL_PHONE)
+                != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(CreditSingleActivity.this, "Please, activate the permissions", Toast.LENGTH_LONG).show();
+            return;
+        }else{
+            startActivity(intent);
+        }
+        toastMessage("Calling " + customerNameIntent);
+    }
+
+    public void toastMessage(String message){
+        Toast.makeText(this,message,Toast.LENGTH_LONG).show();
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
