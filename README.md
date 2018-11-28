@@ -63,4 +63,21 @@ Link: https://drive.google.com/open?id=1mnZLB-FpjSJHVHsNqbmoRnLJ_vtYwf-g
 
 <a href="https://imgflip.com/gif/2nomez"><img src="https://i.imgflip.com/2nomez.gif" title="made at imgflip.com"/></a>
 
+# Documentación
+
+- Diagrama conceptual  
+![Imgur](https://i.imgur.com/NTZqc2L.png)
+
+- Historias de usuario  
+![Imgur](https://i.imgur.com/hivu7ab.png)  
+![Imgur](https://i.imgur.com/6eEcpHi.png)
+
+- Casos de uso  
+![Imgur](https://i.imgur.com/kEvwErM.png)
+
+- Diagrama entidad - relación  
+![Imgur](https://i.imgur.com/t2YVjVi.png)
+
+- Diccionario de datos  
+![Imgur](https://i.imgur.com/fqxyuZl.png)
 
