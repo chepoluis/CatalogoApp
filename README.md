@@ -11,5 +11,8 @@ Login
 Compra de contado
 <a href="https://imgflip.com/gif/2nojmv"><img src="https://i.imgflip.com/2nojmv.gif" title="made at imgflip.com"/></a>
 
+Historial de compras de contado  
+<a href="https://imgflip.com/gif/2nolol"><img src="https://i.imgflip.com/2nolol.gif" title="made at imgflip.com"/></a>
+
 Compra a credito
 <a href="https://imgflip.com/gif/2nojw8"><img src="https://i.imgflip.com/2nojw8.gif" title="made at imgflip.com"/></a>
