@@ -4,10 +4,10 @@ Proyecto realizado en Android Studio, en el cual puedes realiar compras por cato
 
 # Instrucciones de instalación  
 - Descargar el APK  
-[Imgur](https://i.imgur.com/upUH9cu.png)
+![Alt text](https://i.imgur.com/upUH9cu.png "Descargar")
 
 - Cuando lo descargues te aparecera una advertencia que este tipo de archivo puede dañar tu dispositivo, no te preocupes no tiene  nada malo :) presiona OK  
-[Imgur](https://i.imgur.com/nuUUK5R.png)
+![Imgur](https://i.imgur.com/nuUUK5R.png)
 
 Link: https://drive.google.com/open?id=1mnZLB-FpjSJHVHsNqbmoRnLJ_vtYwf-g
 
