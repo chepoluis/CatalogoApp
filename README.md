@@ -2,11 +2,8 @@
 
 Proyecto realizado en Android Studio, en el cual puedes realiar compras por catologo, el cual utiliza la base de datos en tiempo real de Firebase.
 
-# Instalacion
-- Descargar o clonar el proyecto.
-- Abrirlo con Android Studio 
-- Instalar las dependencias 
-- Listo! 
+# APK
+Link: https://drive.google.com/open?id=1mnZLB-FpjSJHVHsNqbmoRnLJ_vtYwf-g
 
 Login
 <a href="https://imgflip.com/gif/2nohwm"><img src="https://i.imgflip.com/2nohwm.gif" title="made at imgflip.com"/></a>
