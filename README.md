@@ -3,7 +3,9 @@
 Proyecto realizado en Android Studio, en el cual puedes realiar compras por catologo, el cual utiliza la base de datos en tiempo real de Firebase.
 
 # Instrucciones de instalación  
-- 1 Descargar el APK
+- Descargar el APK  
+![a254794b5ceaef67ab7b0f0392039c37.png](:/214308396e294d7f8929d8b63b238c7c)
+
 Link: https://drive.google.com/open?id=1mnZLB-FpjSJHVHsNqbmoRnLJ_vtYwf-g
 
 **Login**
