@@ -9,6 +9,10 @@ Link: https://drive.google.com/open?id=1mnZLB-FpjSJHVHsNqbmoRnLJ_vtYwf-g
 
 <a href="https://imgflip.com/gif/2nohwm"><img src="https://i.imgflip.com/2nohwm.gif" title="made at imgflip.com"/></a>
 
+**Registro**
+
+<a href="https://imgflip.com/gif/2nomr0"><img src="https://i.imgflip.com/2nomr0.gif" title="made at imgflip.com"/></a>
+
 **Compra de contado**
 
 <a href="https://imgflip.com/gif/2nojmv"><img src="https://i.imgflip.com/2nojmv.gif" title="made at imgflip.com"/></a>
