@@ -8,3 +8,4 @@ Proyecto realizado en Android Studio, en el cual puedes realiar compras por cato
 - Instalar las dependencias 
 - Listo! 
 
+<a href="https://imgflip.com/gif/2nohwm"><img src="https://i.imgflip.com/2nohwm.gif" title="made at imgflip.com"/></a>
