@@ -13,6 +13,24 @@ Link: https://drive.google.com/open?id=1mnZLB-FpjSJHVHsNqbmoRnLJ_vtYwf-g
 - Después lo abrimos, te aparecera otra advertencia, para solucionarlo seleccionamos settings  
 ![Imgur](https://i.imgur.com/Zqqo42B.png)
 
+- Y habilitamos la opción de Unknown sources  
+![Imgur](https://i.imgur.com/9dWrozT.png)
+
+- Aparecera otra advertencia, solo le presionamos OK  
+![Imgur](https://i.imgur.com/qX5DScm.png)
+
+- Presionamos el botón instalar  
+![Imgur](https://i.imgur.com/mHgGZrS.png)
+
+- Y listo! Ya tenemos la app instalada 
+![Imgur](https://i.imgur.com/hxAxkkI.png)
+
+- Y la abrimos  
+![Imgur](https://i.imgur.com/YL07hec.png)  
+![Imgur](https://i.imgur.com/8Q4vS2f.png)
+
+# Funcionalidad
+
 **Login**
 
 <a href="https://imgflip.com/gif/2nohwm"><img src="https://i.imgflip.com/2nohwm.gif" title="made at imgflip.com"/></a>
